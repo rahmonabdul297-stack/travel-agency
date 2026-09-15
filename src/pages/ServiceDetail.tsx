@@ -264,34 +264,80 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Service Selector Tabs */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
-        <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide justify-start lg:justify-center">
-          {SERVICES_DATA.map((item) => {
-            const IconComponent = item.icon;
-            const isActive = activeTab === item.slug;
-            return (
-              <button
-                key={item.slug}
-                onClick={() => {
-                  setActiveTab(item.slug);
-                  setOpenAccordion(0);
-                }}
-                className={`flex items-center gap-2 px-5 py-3.5 rounded-2xl font-semibold text-sm whitespace-nowrap transition-all duration-300 ${
-                  isActive
-                    ? 'bg-brand-gradient text-white shadow-brand-glow'
-                    : theme === 'dark'
-                    ? 'bg-surface-dark-card text-ink-dark-secondary hover:text-ink-dark-primary border border-border-dark'
-                    : 'bg-white text-ink-light-secondary hover:text-ink-light-primary border border-border-light shadow-card-light'
-                }`}
-              >
-                <IconComponent className="text-base" />
-                {item.title}
-              </button>
-            );
-          })}
-        </div>
-      </section>
+     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+  {/* Mobile View: Select Dropdown Option (Alternative to Horizontal Bar) */}
+  <div className="block md:hidden mb-4">
+    <div
+      className={`p-2 rounded-2xl border backdrop-blur-md shadow-card-light ${
+        theme === "dark"
+          ? "bg-surface-dark-card/90 border-border-dark"
+          : "bg-white/90 border-border-light"
+      }`}
+    >
+      <div className="grid grid-cols-2 gap-2">
+        {SERVICES_DATA.map((item) => {
+          const IconComponent = item.icon;
+          const isActive = activeTab === item.slug;
+          return (
+            <button
+              key={item.slug}
+              onClick={() => {
+                setActiveTab(item.slug);
+                setOpenAccordion(0);
+              }}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-xl font-medium text-xs transition-all duration-300 ${
+                isActive
+                  ? "bg-brand-gradient text-white shadow-brand-glow font-semibold"
+                  : theme === "dark"
+                  ? "bg-surface-dark-hover/50 text-ink-dark-secondary hover:text-ink-dark-primary"
+                  : "bg-gray-100 text-ink-light-secondary hover:text-ink-light-primary"
+              }`}
+            >
+              <IconComponent className="text-sm shrink-0" />
+              <span className="truncate">{item.title}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  {/* Desktop & Tablet View: Animated Segmented Pills */}
+  <div className="hidden md:flex flex-wrap items-center justify-center gap-2 p-2 rounded-2xl border backdrop-blur-md shadow-card-light transition-colors duration-300 max-w-fit mx-auto">
+    {SERVICES_DATA.map((item) => {
+      const IconComponent = item.icon;
+      const isActive = activeTab === item.slug;
+      return (
+        <button
+          key={item.slug}
+          onClick={() => {
+            setActiveTab(item.slug);
+            setOpenAccordion(0);
+          }}
+          className={`relative flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-colors duration-300 ${
+            isActive
+              ? "text-white"
+              : theme === "dark"
+              ? "text-ink-dark-secondary hover:text-ink-dark-primary hover:bg-surface-dark-hover/50"
+              : "text-ink-light-secondary hover:text-ink-light-primary hover:bg-gray-100"
+          }`}
+        >
+          {/* Animated Background Indicator for Desktop */}
+          {isActive && (
+            <motion.div
+              layoutId="activeTabIndicator"
+              className="absolute inset-0 bg-brand-gradient rounded-xl shadow-brand-glow z-0"
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            />
+          )}
+
+          <IconComponent className="text-base relative z-10" />
+          <span className="relative z-10">{item.title}</span>
+        </button>
+      );
+    })}
+  </div>
+</section>
 
       {/* Active Service Showcase */}
       <section className="py-12 lg:py-16">
