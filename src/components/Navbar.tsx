@@ -4,20 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   FaSun,
   FaMoon,
-  FaWhatsapp,
-  FaPhone,
   FaArrowRight,
   HiMenuAlt3,
   HiX,
-  FaPlane,
 } from "@/lib/icons";
 import { useTheme } from "@/context/ThemeContext";
-import type { SiteSettings } from "@/lib/supabase";
 import { Logo } from "./Logo";
-
-type NavbarProps = {
-  settings: SiteSettings | null;
-};
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -25,7 +17,7 @@ const navLinks = [
   { to: "/contact", label: "Contact" },
 ];
 
-export default function Navbar({ settings }: NavbarProps) {
+export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,7 +50,7 @@ export default function Navbar({ settings }: NavbarProps) {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-           <Logo/>
+            <Logo />
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">
@@ -90,7 +82,7 @@ export default function Navbar({ settings }: NavbarProps) {
                 </NavLink>
               ))}
               <NavLink
-                to="/services/flight-tickets"
+                to="/services"
                 className={({ isActive }) =>
                   `relative px-4 py-2 font-medium text-sm transition-colors duration-300 ${
                     isActive
@@ -140,33 +132,6 @@ export default function Navbar({ settings }: NavbarProps) {
                   )}
                 </AnimatePresence>
               </motion.button>
-
-              {/* Contact buttons - desktop */}
-              {settings?.phone && (
-                <a
-                  href={`tel:${settings.phone}`}
-                  className="hidden xl:flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-300 hover:bg-brand-gradient hover:text-white"
-                  style={{
-                    color:
-                      theme === "dark"
-                        ? "var(--tw-color-ink-dark-secondary)"
-                        : undefined,
-                  }}
-                >
-                  <FaPhone className="text-brand-red-orange group-hover:text-white" />
-                  <span
-                    className={
-                      theme === "dark"
-                        ? "text-ink-dark-secondary"
-                        : "text-ink-light-secondary"
-                    }
-                  >
-                    {settings.phone}
-                  </span>
-                </a>
-              )}
-
-             
 
               <Link
                 to="/contact"
@@ -270,42 +235,6 @@ export default function Navbar({ settings }: NavbarProps) {
                   transition={{ delay: 0.35 }}
                   className="mt-6 pt-6 border-t border-border-light dark:border-border-dark space-y-3"
                 >
-                  {settings?.phone && (
-                    <a
-                      href={`tel:${settings.phone}`}
-                      className="flex items-center gap-3 text-sm"
-                    >
-                      <FaPhone className="text-brand-red-orange" />
-                      <span
-                        className={
-                          theme === "dark"
-                            ? "text-ink-dark-secondary"
-                            : "text-ink-light-secondary"
-                        }
-                      >
-                        {settings.phone}
-                      </span>
-                    </a>
-                  )}
-                  {settings?.whatsapp && (
-                    <a
-                      href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 text-sm"
-                    >
-                      <FaWhatsapp className="text-green-500" />
-                      <span
-                        className={
-                          theme === "dark"
-                            ? "text-ink-dark-secondary"
-                            : "text-ink-light-secondary"
-                        }
-                      >
-                        WhatsApp
-                      </span>
-                    </a>
-                  )}
                   <Link
                     to="/contact"
                     className="btn-brand w-full text-center mt-4"

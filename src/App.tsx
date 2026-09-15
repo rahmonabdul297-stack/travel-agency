@@ -7,12 +7,12 @@ import Footer from "@/components/Footer";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
-import ServiceDetail from "@/pages/ServiceDetail";
+import Services from "@/pages/ServiceDetail"; // Uses static Services component
 import NotFound from "@/pages/NotFound";
 import Admin from "@/pages/Admin";
 import { fetchSiteSettings } from "@/lib/data";
 import type { SiteSettings } from "@/lib/supabase";
-import { FaAngleDoubleUp, FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
 
@@ -43,7 +43,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 
 function AppContent() {
   const location = useLocation();
-  const { theme } = useTheme(); // Called safely inside ThemeProvider
+  const { theme } = useTheme();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
@@ -52,7 +52,9 @@ function AppContent() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col ${theme === "dark" ? "bg-surface-dark" : "bg-surface-light"}`}
+      className={`min-h-screen flex flex-col ${
+        theme === "dark" ? "bg-surface-dark" : "bg-surface-light"
+      }`}
     >
       <ToastContainer
         theme={theme === "dark" ? "dark" : "light"}
@@ -64,7 +66,7 @@ function AppContent() {
         draggable
         pauseOnHover
       />
-      <Navbar settings={settings} />
+      <Navbar />
 
       <main className="flex-1">
         <AnimatePresence mode="wait">
@@ -93,14 +95,25 @@ function AppContent() {
                 </PageWrapper>
               }
             />
+            
+            {/* Catch both /services and /services/:slug */}
+            <Route
+              path="/services"
+              element={
+                <PageWrapper>
+                  <Services />
+                </PageWrapper>
+              }
+            />
             <Route
               path="/services/:slug"
               element={
                 <PageWrapper>
-                  <ServiceDetail />
+                  <Services />
                 </PageWrapper>
               }
             />
+
             <Route
               path="/admin"
               element={
@@ -121,23 +134,24 @@ function AppContent() {
         </AnimatePresence>
       </main>
 
-      {/* Floating Action WhatsApp CTA */}
-      {settings?.whatsapp && (
-       <div className="flex flex-col gap-1 fixed bottom-[20%] right-6">
-         <MdKeyboardDoubleArrowUp className="text-yellow-500 fixed animate-float bottom-[30%] right-9"size={30}/>
+      {/* Always-visible Floating WhatsApp Button */}
+      <div className="flex flex-col items-center gap-1 fixed bottom-[10%] right-6 z-50">
+        <MdKeyboardDoubleArrowUp
+          className="text-yellow-500 animate-bounce"
+          size={24}
+        />
         <a
-          href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`}
+          href="https://wa.me/93789785320"
           target="_blank"
           rel="noopener noreferrer"
-          className=" z-50 flex h-10 w-10 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-300 hover:scale-110 border border-yellow-600"
-          aria-label="Contact us on WhatsApp"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-300 hover:scale-110 border border-yellow-600 bg-green-600"
+          aria-label="Contact us on WhatsApp p-1"
         >
-          <FaWhatsapp className="h-8 w-8 p-1 animate-pulse bg-green-700  rounded-[50%]"  />
+          <FaWhatsapp className="h-7 w-7 animate-pulse" />
         </a>
-       </div>
-      )}
+      </div>
 
-      <Footer settings={settings} />
+      <Footer />
     </div>
   );
 }
@@ -151,4 +165,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-

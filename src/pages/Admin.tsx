@@ -1,31 +1,15 @@
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FaPlane, FaUsers, FaEnvelope, FaCog, FaTimes, FaCheck,
+  FaPlane, FaUsers, FaEnvelope, FaTimes, FaCheck,
   FaPlus, FaEdit, FaTrashAlt, FaArrowLeft, FaPhone,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@/context/ThemeContext';
 import { supabase } from '@/lib/supabase';
-import type { Service, Package, Submission, SiteSettings } from '@/lib/supabase';
-import { successNotification } from '@/utils/helper';
+import type { Service, Package, Submission } from '@/lib/supabase';
 
-type Tab = 'submissions' | 'services' | 'packages' | 'settings';
-
-const defaultSettings: SiteSettings = {
-  id: '',
-  agency_name: 'Excellent Travel Agency',
-  tagline: 'A Reliable Way Towards a Brighter Future',
-  phone: '',
-  whatsapp: '',
-  email: '',
-  address: '',
-  facebook: '',
-  instagram: '',
-  twitter: '',
-  youtube: '',
-  about_text: '',
-};
+type Tab = 'submissions' | 'services' | 'packages';
 
 export default function Admin() {
   const { theme } = useTheme();
@@ -33,7 +17,6 @@ export default function Admin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [packages, setPackages] = useState<Package[]>([]);
-  const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
   const [loading, setLoading] = useState(true);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [editingPackage, setEditingPackage] = useState<Package | null>(null);
@@ -47,14 +30,12 @@ export default function Admin() {
   const loadAll = async () => {
     setLoading(true);
     try {
-      const [subs, svcs, stgs] = await Promise.all([
+      const [subs, svcs] = await Promise.all([
         supabase.from('submissions').select('*').order('created_at', { ascending: false }),
         supabase.from('services').select('*').order('display_order', { ascending: true }),
-        supabase.from('site_settings').select('*').limit(1).maybeSingle(),
       ]);
       setSubmissions(subs.data ?? []);
       setServices(svcs.data ?? []);
-      setSettings(stgs.data ?? defaultSettings);
 
       if (svcs.data && svcs.data.length > 0) {
         const pkgs = await supabase.from('packages').select('*').order('display_order', { ascending: true });
@@ -70,7 +51,6 @@ export default function Admin() {
     { key: 'submissions', label: 'Submissions', icon: FaEnvelope },
     { key: 'services', label: 'Services', icon: FaPlane },
     { key: 'packages', label: 'Packages', icon: FaUsers },
-    { key: 'settings', label: 'Settings', icon: FaCog },
   ];
 
   const statusColors: Record<string, string> = {
@@ -102,37 +82,6 @@ export default function Admin() {
     setPackages(prev => prev.filter(p => p.id !== id));
   };
 
-  const saveSettings = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!settings) return;
-
-    const payload = {
-      agency_name: settings.agency_name,
-      tagline: settings.tagline,
-      phone: settings.phone,
-      whatsapp: settings.whatsapp,
-      email: settings.email,
-      address: settings.address,
-      facebook: settings.facebook,
-      instagram: settings.instagram,
-      twitter: settings.twitter,
-      youtube: settings.youtube,
-      about_text: settings.about_text,
-      updated_at: new Date().toISOString(),
-    };
-
-    if (settings.id) {
-      await supabase.from('site_settings').update(payload).eq('id', settings.id);
-    } else {
-      const { data } = await supabase.from('site_settings').insert(payload).select().single();
-      if (data) setSettings(data);
-    }
-
-    successNotification('Settings saved successfully!');
-  };
-
-  const inputCls = `input-field ${theme === 'dark' ? 'input-field-dark' : 'input-field-light'}`;
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-20">
@@ -155,7 +104,7 @@ export default function Admin() {
               Admin Panel
             </h1>
             <p className={`text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-              Manage services, packages, submissions, and site settings
+              Manage services, packages, and customer submissions
             </p>
           </div>
           <Link to="/" className={`flex items-center gap-2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary hover:text-brand-gold' : 'text-ink-light-secondary hover:text-brand-red-orange'}`}>
@@ -380,83 +329,6 @@ export default function Admin() {
                 </div>
               </div>
             )}
-
-            {/* Settings */}
-            {tab === 'settings' && (
-              <form onSubmit={saveSettings} className="space-y-4 max-w-3xl">
-                <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
-                  <h3 className={`font-display font-bold mb-4 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                    Agency Information
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Agency Name</label>
-                      <input value={settings.agency_name} onChange={(e) => setSettings({ ...settings, agency_name: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Tagline</label>
-                      <input value={settings.tagline} onChange={(e) => setSettings({ ...settings, tagline: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Phone</label>
-                      <input value={settings.phone} onChange={(e) => setSettings({ ...settings, phone: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>WhatsApp</label>
-                      <input value={settings.whatsapp} onChange={(e) => setSettings({ ...settings, whatsapp: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Email</label>
-                      <input value={settings.email} onChange={(e) => setSettings({ ...settings, email: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Address</label>
-                      <input value={settings.address} onChange={(e) => setSettings({ ...settings, address: e.target.value })} className={inputCls} />
-                    </div>
-                  </div>
-                </div>
-
-                <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
-                  <h3 className={`font-display font-bold mb-4 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                    Social Media
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Facebook</label>
-                      <input value={settings.facebook} onChange={(e) => setSettings({ ...settings, facebook: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Instagram</label>
-                      <input value={settings.instagram} onChange={(e) => setSettings({ ...settings, instagram: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>Twitter</label>
-                      <input value={settings.twitter} onChange={(e) => setSettings({ ...settings, twitter: e.target.value })} className={inputCls} />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-medium mb-1 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>YouTube</label>
-                      <input value={settings.youtube} onChange={(e) => setSettings({ ...settings, youtube: e.target.value })} className={inputCls} />
-                    </div>
-                  </div>
-                </div>
-
-                <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
-                  <h3 className={`font-display font-bold mb-4 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                    About Text
-                  </h3>
-                  <textarea
-                    value={settings.about_text}
-                    onChange={(e) => setSettings({ ...settings, about_text: e.target.value })}
-                    rows={5}
-                    className={`${inputCls} resize-none`}
-                  />
-                </div>
-
-                <button type="submit" className="btn-brand flex items-center gap-2">
-                  <FaCheck /> Save Settings
-                </button>
-              </form>
-            )}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -510,7 +382,7 @@ function ServiceModal({ service, onClose, onSaved }: {
   const [saving, setSaving] = useState(false);
   const inputCls = `input-field ${theme === 'dark' ? 'input-field-dark' : 'input-field-light'}`;
 
-  const handleSave = async (e: FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     const payload = {
@@ -598,7 +470,7 @@ function PackageModal({ pkg, services, onClose, onSaved }: {
   const [saving, setSaving] = useState(false);
   const inputCls = `input-field ${theme === 'dark' ? 'input-field-dark' : 'input-field-light'}`;
 
-  const handleSave = async (e: FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     const payload = {
