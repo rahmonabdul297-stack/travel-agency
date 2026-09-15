@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans antialiased;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+  .light body {
+    @apply bg-surface-light text-ink-light-primary;
+  }
+  .dark body {
+    @apply bg-surface-dark text-ink-dark-primary;
+  }
+}
+
+@layer components {
+  .brand-text-gradient {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+  }
+  .glass-card {
+    @apply backdrop-blur-xl border;
+  }
+  .glass-card-light {
+    @apply bg-white/70 border-border-light shadow-card-light;
+  }
+  .glass-card-dark {
+    @apply bg-surface-dark-card/70 border-border-dark shadow-card-dark;
+  }
+  .btn-brand {
+    @apply bg-brand-gradient text-white font-semibold px-6 py-3 rounded-xl
+           transition-all duration-300 hover:shadow-brand-glow hover:scale-105
+           active:scale-95;
+  }
+  .btn-outline-brand {
+    @apply border-2 border-brand-red-orange text-brand-red-orange font-semibold px-6 py-3 rounded-xl
+           transition-all duration-300 hover:bg-brand-gradient hover:text-white hover:border-transparent
+           active:scale-95;
+  }
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 outline-none
+           focus:ring-2 focus:ring-brand-red-orange/30;
+  }
+  .input-field-light {
+    @apply bg-white border-border-light text-ink-light-primary
+           focus:border-brand-red-orange placeholder:text-ink-light-secondary/50;
+  }
+  .input-field-dark {
+    @apply bg-surface-dark-hover border-border-dark text-ink-dark-primary
+           focus:border-brand-red-orange placeholder:text-ink-dark-secondary/50;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}

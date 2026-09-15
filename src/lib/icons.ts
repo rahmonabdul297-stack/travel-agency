@@ -1,0 +1,39 @@
+import {
+  FaPlane, FaHotel, FaUmbrellaBeach, FaKaaba, FaGraduationCap,
+  FaSun, FaMoon, FaWhatsapp, FaPhone, FaEnvelope, FaMapMarkerAlt,
+  FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaArrowRight,FaArrowLeft,
+  FaCheckCircle, FaPaperPlane, FaUser, FaCalendarAlt, FaGlobe,
+  FaClock, FaStar, FaQuoteLeft, FaChevronDown, FaChevronRight,
+  FaUsers, FaShieldAlt, FaHeadset, FaMoneyBillWave, FaPassport,
+  FaFileUpload, FaTimes, FaBars, FaSearch, FaHome, FaInfoCircle,
+  FaQuestionCircle, FaRegLightbulb, FaAward, FaHandshake, FaRocket,
+} from 'react-icons/fa';
+import { HiMenuAlt3, HiX } from 'react-icons/hi';
+
+export const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  FaPlane, FaHotel, FaUmbrellaBeach, FaKaaba, FaGraduationCap,
+  FaSun, FaMoon, FaWhatsapp, FaPhone, FaEnvelope, FaMapMarkerAlt,
+  FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaArrowRight,FaArrowLeft,
+  FaCheckCircle, FaPaperPlane, FaUser, FaCalendarAlt, FaGlobe,
+  FaClock, FaStar, FaQuoteLeft, FaChevronDown, FaChevronRight,
+  FaUsers, FaShieldAlt, FaHeadset, FaMoneyBillWave, FaPassport,
+  FaFileUpload, FaTimes, FaBars, FaSearch, FaHome, FaInfoCircle,
+  FaQuestionCircle, FaRegLightbulb, FaAward, FaHandshake, FaRocket,
+  HiMenuAlt3, HiX,
+};
+
+export function getIcon(name: string): React.ComponentType<{ className?: string }> {
+  return iconMap[name] ?? FaPlane;
+}
+
+export {
+  FaPlane, FaHotel, FaUmbrellaBeach, FaKaaba, FaGraduationCap,
+  FaSun, FaMoon, FaWhatsapp, FaPhone, FaEnvelope, FaMapMarkerAlt,
+  FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaArrowRight,FaArrowLeft,
+  FaCheckCircle, FaPaperPlane, FaUser, FaCalendarAlt, FaGlobe,
+  FaClock, FaStar, FaQuoteLeft, FaChevronDown, FaChevronRight,
+  FaUsers, FaShieldAlt, FaHeadset, FaMoneyBillWave, FaPassport,
+  FaFileUpload, FaTimes, FaBars, FaSearch, FaHome, FaInfoCircle,
+  FaQuestionCircle, FaRegLightbulb, FaAward, FaHandshake, FaRocket,
+  HiMenuAlt3, HiX,
+};
