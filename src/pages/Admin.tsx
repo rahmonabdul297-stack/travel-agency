@@ -2,15 +2,30 @@ import { useState, useEffect, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaPlane, FaUsers, FaEnvelope, FaCog, FaTimes, FaCheck,
-  FaPlus, FaEdit, FaTrashAlt, FaChevronDown, FaArrowLeft,
-  FaPaperPlane, FaPhone,
+  FaPlus, FaEdit, FaTrashAlt, FaArrowLeft, FaPhone,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@/context/ThemeContext';
 import { supabase } from '@/lib/supabase';
 import type { Service, Package, Submission, SiteSettings } from '@/lib/supabase';
+import { successNotification } from '@/utils/helper';
 
 type Tab = 'submissions' | 'services' | 'packages' | 'settings';
+
+const defaultSettings: SiteSettings = {
+  id: '',
+  agency_name: 'Excellent Travel Agency',
+  tagline: 'A Reliable Way Towards a Brighter Future',
+  phone: '',
+  whatsapp: '',
+  email: '',
+  address: '',
+  facebook: '',
+  instagram: '',
+  twitter: '',
+  youtube: '',
+  about_text: '',
+};
 
 export default function Admin() {
   const { theme } = useTheme();
@@ -18,7 +33,7 @@ export default function Admin() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [packages, setPackages] = useState<Package[]>([]);
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
   const [loading, setLoading] = useState(true);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [editingPackage, setEditingPackage] = useState<Package | null>(null);
@@ -39,7 +54,8 @@ export default function Admin() {
       ]);
       setSubmissions(subs.data ?? []);
       setServices(svcs.data ?? []);
-      setSettings(stgs.data);
+      setSettings(stgs.data ?? defaultSettings);
+
       if (svcs.data && svcs.data.length > 0) {
         const pkgs = await supabase.from('packages').select('*').order('display_order', { ascending: true });
         setPackages(pkgs.data ?? []);
@@ -89,7 +105,8 @@ export default function Admin() {
   const saveSettings = async (e: FormEvent) => {
     e.preventDefault();
     if (!settings) return;
-    await supabase.from('site_settings').update({
+
+    const payload = {
       agency_name: settings.agency_name,
       tagline: settings.tagline,
       phone: settings.phone,
@@ -102,8 +119,16 @@ export default function Admin() {
       youtube: settings.youtube,
       about_text: settings.about_text,
       updated_at: new Date().toISOString(),
-    }).eq('id', settings.id);
-    alert('Settings saved successfully!');
+    };
+
+    if (settings.id) {
+      await supabase.from('site_settings').update(payload).eq('id', settings.id);
+    } else {
+      const { data } = await supabase.from('site_settings').insert(payload).select().single();
+      if (data) setSettings(data);
+    }
+
+    successNotification('Settings saved successfully!');
   };
 
   const inputCls = `input-field ${theme === 'dark' ? 'input-field-dark' : 'input-field-light'}`;
@@ -357,7 +382,7 @@ export default function Admin() {
             )}
 
             {/* Settings */}
-            {tab === 'settings' && settings && (
+            {tab === 'settings' && (
               <form onSubmit={saveSettings} className="space-y-4 max-w-3xl">
                 <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
                   <h3 className={`font-display font-bold mb-4 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
