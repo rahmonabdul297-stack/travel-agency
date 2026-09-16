@@ -9,7 +9,7 @@ import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Services from "@/pages/ServiceDetail"; // Uses static Services component
 import NotFound from "@/pages/NotFound";
-import Admin from "@/pages/Admin";
+// import Admin from "@/pages/Admin";
 import { fetchSiteSettings } from "@/lib/data";
 import type { SiteSettings } from "@/lib/supabase";
 import { FaWhatsapp } from "react-icons/fa";
@@ -91,7 +91,7 @@ function AppContent() {
               path="/contact"
               element={
                 <PageWrapper>
-                  <Contact settings={settings} />
+                  <Contact />
                 </PageWrapper>
               }
             />
@@ -114,14 +114,14 @@ function AppContent() {
               }
             />
 
-            <Route
+            {/* <Route
               path="/admin"
               element={
                 <PageWrapper>
                   <Admin />
                 </PageWrapper>
               }
-            />
+            /> */}
             <Route
               path="*"
               element={

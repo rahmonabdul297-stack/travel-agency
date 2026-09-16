@@ -5,11 +5,14 @@ import {
   FaFileUpload, FaTimes, FaArrowRight,
 } from '@/lib/icons';
 import { useTheme } from '@/context/ThemeContext';
-import { submitLead } from '@/lib/data';
-import type { Service } from '@/lib/supabase';
+
+type ServiceOption = {
+  id?: string;
+  title: string;
+};
 
 type LeadFormProps = {
-  services?: Service[];
+  services?: ServiceOption[];
   defaultService?: string;
   compact?: boolean;
 };
@@ -20,6 +23,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
   const { theme } = useTheme();
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [form, setForm] = useState({
     full_name: '',
     phone: '',
@@ -32,8 +36,23 @@ export default function LeadForm({ services = [], defaultService = '', compact =
 
   const inputCls = `input-field ${theme === 'dark' ? 'input-field-dark' : 'input-field-light'}`;
 
+  // Default services list if none passed via props
+  const availableServices = services.length > 0 ? services : [
+    { title: 'Flight Tickets' },
+    { title: 'Hotel Reservations' },
+    { title: 'Travel Services' },
+    { title: 'Umrah Packages' },
+    { title: 'Student Visas' },
+  ];
+
   const handleChange = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -43,15 +62,48 @@ export default function LeadForm({ services = [], defaultService = '', compact =
       setStatus('error');
       return;
     }
+
     setStatus('submitting');
     setErrorMsg('');
+
     try {
-      await submitLead({
-        ...form,
-        document_url: '',
+      const formData = new FormData();
+      
+      // Use Web3Forms Key (Replace with your key or environment variable VITE_WEB3FORMS_ACCESS_KEY)
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY_HERE';
+      formData.append('access_key', accessKey);
+      formData.append('subject', `New Lead: ${form.service || 'Travel'} Inquiry from ${form.full_name}`);
+      formData.append('from_name', 'Excellent Travel Agency Website');
+      
+      // Form fields
+      formData.append('Full Name', form.full_name);
+      formData.append('Phone / WhatsApp', form.phone);
+      formData.append('Email', form.email || 'Not provided');
+      formData.append('Service Interested In', form.service || 'General Inquiry');
+      formData.append('Destination', form.destination || 'Not specified');
+      formData.append('Travel Date', form.travel_date || 'Not specified');
+      formData.append('Message', form.message || 'No additional message');
+
+      // Attach document if uploaded
+      if (selectedFile) {
+        formData.append('attachment', selectedFile);
+      }
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
       });
-      setStatus('success');
-      setForm({ full_name: '', phone: '', email: '', service: defaultService, destination: '', travel_date: '', message: '' });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setForm({ full_name: '', phone: '', email: '', service: defaultService, destination: '', travel_date: '', message: '' });
+        setSelectedFile(null);
+      } else {
+        setStatus('error');
+        setErrorMsg(data.message || 'Something went wrong while submitting. Please try again.');
+      }
     } catch (err) {
       setStatus('error');
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
@@ -70,6 +122,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
               <FaUser className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
               <input
                 type="text"
+                required
                 value={form.full_name}
                 onChange={(e) => handleChange('full_name', e.target.value)}
                 placeholder="John Doe"
@@ -86,9 +139,10 @@ export default function LeadForm({ services = [], defaultService = '', compact =
               <FaPhone className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
               <input
                 type="tel"
+                required
                 value={form.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
-                placeholder="+1 555 123 4567"
+                placeholder="+93 789 785 320"
                 className={`${inputCls} pl-10`}
               />
             </div>
@@ -120,8 +174,8 @@ export default function LeadForm({ services = [], defaultService = '', compact =
               className={`${inputCls} pr-10`}
             >
               <option value="">Choose a service...</option>
-              {services.map((s) => (
-                <option key={s.id} value={s.title}>{s.title}</option>
+              {availableServices.map((s, idx) => (
+                <option key={s.id || idx} value={s.title}>{s.title}</option>
               ))}
             </select>
           </div>
@@ -165,20 +219,26 @@ export default function LeadForm({ services = [], defaultService = '', compact =
           />
         </div>
 
-        {/* Document upload (visual only) */}
-        <div>
+        {/* Functional Document Upload */}
+        {/* <div>
           <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
             Document Upload (Optional)
           </label>
-          <div className={`border-2 border-dashed rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-colors ${
+          <label className={`border-2 border-dashed rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-colors ${
             theme === 'dark' ? 'border-border-dark hover:border-brand-red-orange' : 'border-border-light hover:border-brand-red-orange'
           }`}>
             <FaFileUpload className={`text-xl ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
-            <span className={`text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-              Click to upload passport, documents, etc.
+            <span className={`text-sm truncate ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
+              {selectedFile ? `Selected: ${selectedFile.name}` : 'Click to upload passport, documents, etc.'}
             </span>
-          </div>
-        </div>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="hidden"
+              accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"
+            />
+          </label>
+        </div> */}
 
         <motion.button
           type="submit"
@@ -256,7 +316,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
                 Inquiry Submitted!
               </h3>
               <p className={`text-sm mb-6 ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-                Thank you for reaching out to Excellent Travel Agency. Our team will contact you within 24 hours.
+                Thank you for reaching out to Excellent Travel Agency. Our team will review your message and get in touch shortly.
               </p>
 
               <button

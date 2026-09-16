@@ -1,44 +1,52 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaPhone, FaWhatsapp, FaEnvelope, FaMapMarkerAlt,
   FaFacebookF, FaInstagram, FaTwitter, FaYoutube,
-  FaClock, FaArrowRight,
+  FaClock,
 } from '@/lib/icons';
 import { useTheme } from '@/context/ThemeContext';
-import { fetchServices, fetchSiteSettings } from '@/lib/data';
-import type { Service, SiteSettings } from '@/lib/supabase';
 import LeadForm from '@/components/LeadForm';
 
-type ContactProps = {
-  settings: SiteSettings | null;
-};
-
-export default function Contact({ settings }: ContactProps) {
+export default function Contact() {
   const { theme } = useTheme();
-  const [services, setServices] = useState<Service[]>([]);
-  const [localSettings, setLocalSettings] = useState<SiteSettings | null>(settings);
-
-  useEffect(() => {
-    fetchServices().then(setServices).catch(console.error);
-    if (!settings) {
-      fetchSiteSettings().then(setLocalSettings).catch(console.error);
-    }
-  }, [settings]);
 
   const contactCards = [
-    { icon: FaPhone, label: 'Phone', value: localSettings?.phone || '', href: `tel:${localSettings?.phone || ''}`, color: 'bg-blue-500' },
-    { icon: FaWhatsapp, label: 'WhatsApp', value: localSettings?.whatsapp || '', href: `https://wa.me/${(localSettings?.whatsapp || '').replace(/[^0-9]/g, '')}`, color: 'bg-green-500' },
-    { icon: FaEnvelope, label: 'Email', value: localSettings?.email || '', href: `mailto:${localSettings?.email || ''}`, color: 'bg-brand-red-orange' },
-    { icon: FaMapMarkerAlt, label: 'Address', value: localSettings?.address || '', href: '#', color: 'bg-brand-amber' },
+    {
+      icon: FaPhone,
+      label: 'Phone Support',
+      value: '+93 789785320',
+      href: 'tel:+93789785320',
+      color: 'bg-blue-500',
+    },
+    {
+      icon: FaWhatsapp,
+      label: 'WhatsApp',
+      value: '+93 789785320',
+      href: 'https://wa.me/93789785320',
+      color: 'bg-green-500',
+    },
+    {
+      icon: FaEnvelope,
+      label: 'Email Us',
+      value: 'excellent.kbl.travel@gmail.com',
+      href: 'mailto:excellent.kbl.travel@gmail.com',
+      color: 'bg-brand-red-orange',
+    },
+    {
+      icon: FaMapMarkerAlt,
+      label: 'Visit Office',
+      value: 'Kabul, Afghanistan',
+      href: '#office-map',
+      color: 'bg-brand-amber',
+    },
   ];
 
   const socials = [
-    { url: localSettings?.facebook, icon: FaFacebookF, label: 'Facebook' },
-    { url: localSettings?.instagram, icon: FaInstagram, label: 'Instagram' },
-    { url: localSettings?.twitter, icon: FaTwitter, label: 'Twitter' },
-    { url: localSettings?.youtube, icon: FaYoutube, label: 'YouTube' },
-  ].filter((s) => s.url);
+    { url: 'https://facebook.com', icon: FaFacebookF, label: 'Facebook' },
+    { url: 'https://instagram.com', icon: FaInstagram, label: 'Instagram' },
+    { url: 'https://twitter.com', icon: FaTwitter, label: 'Twitter' },
+    { url: 'https://youtube.com', icon: FaYoutube, label: 'YouTube' },
+  ];
 
   return (
     <div className={theme === 'dark' ? 'bg-surface-dark' : 'bg-surface-light'}>
@@ -130,7 +138,7 @@ export default function Contact({ settings }: ContactProps) {
               <p className={`text-sm mb-6 ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
                 Fill out the form and we will get back to you within 24 hours.
               </p>
-              <LeadForm services={services} />
+              <LeadForm />
             </motion.div>
 
             {/* Info */}
@@ -140,6 +148,7 @@ export default function Contact({ settings }: ContactProps) {
               viewport={{ once: true }}
               className="space-y-6"
             >
+              {/* Business Hours */}
               <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
                 <div className="flex items-center gap-3 mb-4">
                   <FaClock className="text-brand-red-orange text-xl" />
@@ -149,12 +158,8 @@ export default function Contact({ settings }: ContactProps) {
                 </div>
                 <div className={`space-y-2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
                   <div className="flex justify-between">
-                    <span>Monday - Friday</span>
-                    <span className="font-medium">9:00 AM - 7:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Saturday</span>
-                    <span className="font-medium">10:00 AM - 5:00 PM</span>
+                    <span>Monday - Saturday</span>
+                    <span className="font-medium">8:30 AM - 5:30 PM</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Sunday</span>
@@ -163,6 +168,7 @@ export default function Contact({ settings }: ContactProps) {
                 </div>
               </div>
 
+              {/* Follow Us */}
               <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
                 <h3 className={`font-display font-bold mb-4 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
                   Follow Us
@@ -187,8 +193,8 @@ export default function Contact({ settings }: ContactProps) {
                 </div>
               </div>
 
-              {/* Map placeholder */}
-              <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
+              {/* Office Map */}
+              <div id="office-map" className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
                 <div className="flex items-center gap-3 mb-4">
                   <FaMapMarkerAlt className="text-brand-red-orange text-xl" />
                   <h3 className={`font-display font-bold ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
@@ -200,7 +206,7 @@ export default function Contact({ settings }: ContactProps) {
                     <div className="text-center">
                       <FaMapMarkerAlt className="text-4xl text-brand-red-orange mb-2 mx-auto" />
                       <p className={`text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-                        {localSettings?.address}
+                        Dawoodzai Commercial Center, Kabul, Afghanistan
                       </p>
                     </div>
                   </div>

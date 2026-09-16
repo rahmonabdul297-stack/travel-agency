@@ -106,7 +106,7 @@ const SERVICES_DATA: ServiceData[] = [
     icon: FaConciergeBell,
     short_description: 'Comprehensive travel management including insurance, airport transfers, and customized itineraries.',
     long_description: 'Our agency provides complete support services to ensure every aspect of your journey is seamless. We handle travel insurance issuance, private ground transfers, guided city tours, and administrative visa processing support.',
-    hero_image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80',
+    hero_image: '/images/office_banner.jpeg',
     features: [
       'Comprehensive Travel & Health Insurance',
       'Private Airport Pickups & Transfers',
@@ -228,12 +228,12 @@ export default function Services() {
   return (
     <div className={theme === 'dark' ? 'bg-surface-dark' : 'bg-surface-light'}>
       {/* Header Banner */}
-      <section className="relative h-[45vh] min-h-[360px] flex items-center justify-center overflow-hidden pt-16">
-        <div className="absolute inset-0">
+      <section className="relative h-[65vh] min-h-[360px] flex items-center justify-center overflow-hidden pt-16">
+        <div className="absolute inset-0 h-full">
           <img
-            src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=80"
+            src="/images/travel_banner.jpeg"
             alt="Our Services"
-            className="w-full h-full object-cover"
+            className="w-full h-full "
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/55 to-black/85" />
         </div>
@@ -303,7 +303,7 @@ export default function Services() {
   </div>
 
   {/* Desktop & Tablet View: Animated Segmented Pills */}
-  <div className="hidden md:flex flex-wrap items-center justify-center gap-2 p-2 rounded-2xl border backdrop-blur-md shadow-card-light transition-colors duration-300 max-w-fit mx-auto">
+  <div className="hidden md:flex mt-10 flex-wrap items-center justify-center gap-2 p-2 rounded-2xl border backdrop-blur-md shadow-card-light transition-colors duration-300 max-w-fit mx-auto">
     {SERVICES_DATA.map((item) => {
       const IconComponent = item.icon;
       const isActive = activeTab === item.slug;
