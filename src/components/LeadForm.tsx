@@ -125,7 +125,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
                 required
                 value={form.full_name}
                 onChange={(e) => handleChange('full_name', e.target.value)}
-                placeholder="John Doe"
+                placeholder="Enter your full name"
                 className={`${inputCls} pl-10`}
               />
             </div>
@@ -142,7 +142,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
                 required
                 value={form.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
-                placeholder="+93 789 785 320"
+                placeholder="+92...."
                 className={`${inputCls} pl-10`}
               />
             </div>
@@ -158,7 +158,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
                 type="email"
                 value={form.email}
                 onChange={(e) => handleChange('email', e.target.value)}
-                placeholder="john@example.com"
+                placeholder="Enter your email"
                 className={`${inputCls} pl-10`}
               />
             </div>

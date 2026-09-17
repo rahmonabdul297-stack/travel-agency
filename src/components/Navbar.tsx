@@ -1,15 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaSun,
-  FaMoon,
-  FaArrowRight,
-  HiMenuAlt3,
-  HiX,
-} from "@/lib/icons";
+import { FaSun, FaMoon, FaArrowRight, HiMenuAlt3, HiX } from "@/lib/icons";
 import { useTheme } from "@/context/ThemeContext";
-import { Logo } from "./Logo";
+import { Logo, Logo2 } from "./Logo";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -50,7 +44,7 @@ export default function Navbar() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <Logo />
+            {scrolled ? <Logo /> : <Logo2 />}
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-1">

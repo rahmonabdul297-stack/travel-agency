@@ -607,13 +607,13 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
-                  href="tel:+1234567890"
+                  href="tel:+93789785320"
                   className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-brand-red-orange font-semibold hover:scale-105 transition-transform"
                 >
                   <FaPhone /> Call Us
                 </a>
                 <a
-                  href="https://wa.me/1234567890"
+                  href="https://wa.me/+93789785320"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 rounded-xl bg-green-500 text-white font-semibold hover:scale-105 transition-transform"

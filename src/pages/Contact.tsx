@@ -6,6 +6,8 @@ import {
 } from '@/lib/icons';
 import { useTheme } from '@/context/ThemeContext';
 import LeadForm from '@/components/LeadForm';
+import { FaTiktok } from 'react-icons/fa';
+import { FaX } from 'react-icons/fa6';
 
 export default function Contact() {
   const { theme } = useTheme();
@@ -40,12 +42,12 @@ export default function Contact() {
       color: 'bg-brand-amber',
     },
   ];
-
+  
   const socials = [
     { url: 'https://facebook.com', icon: FaFacebookF, label: 'Facebook' },
     { url: 'https://instagram.com', icon: FaInstagram, label: 'Instagram' },
-    { url: 'https://twitter.com', icon: FaTwitter, label: 'Twitter' },
-    { url: 'https://youtube.com', icon: FaYoutube, label: 'YouTube' },
+    { url: 'https://twitter.com', icon: FaX, label: 'X' },
+    { url: 'https://tiktok.com', icon: FaTiktok, label: 'TikTok' },
   ];
 
   return (

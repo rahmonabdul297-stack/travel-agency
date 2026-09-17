@@ -3,7 +3,13 @@ import { motion } from "framer-motion";
 import { FaArrowRight } from "@/lib/icons";
 import { useTheme } from "@/context/ThemeContext";
 import { Logo } from "./Logo";
-import { FaEnvelope, FaFacebook, FaInstagram, FaPhoneAlt, FaTiktok } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaFacebook,
+  FaInstagram,
+  FaPhoneAlt,
+  FaTiktok,
+} from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
 
 export default function Footer() {
@@ -44,7 +50,10 @@ export default function Footer() {
             <div
               className={`py-8 ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"} flex gap-2`}
             >
-              <Link to="https://web.facebook.com/profile.php?id=100092668025297" target="_blank">
+              <Link
+                to="https://web.facebook.com/profile.php?id=100092668025297"
+                target="_blank"
+              >
                 <FaFacebook />
               </Link>
               <Link to="/">
@@ -156,97 +165,101 @@ export default function Footer() {
                      {" "}
           </motion.div>
           {/* Contact */}
-        <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ delay: 0.3 }}
-  className="space-y-4"
->
-  <h4
-    className={`font-display font-semibold text-base tracking-wide ${
-      theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
-    }`}
-  >
-    Contact Us
-  </h4>
-
-  <div className="space-y-2.5 text-sm">
-    {/* Email Link */}
-    <a
-      href="mailto:excellent.kbl.travel@gmail.com"
-      className={`group flex items-center gap-3 p-2.5 rounded-xl transition-all duration-300 border ${
-        theme === "dark"
-          ? "bg-surface-dark-card/40 hover:bg-surface-dark-card border-border-dark/60 hover:border-brand-gold/40"
-          : "bg-white/50 hover:bg-white border-border-light/80 hover:border-brand-red-orange/30 shadow-card-light"
-      }`}
-    >
-      <div
-        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-          theme === "dark"
-            ? "bg-brand-amber/10 text-brand-gold group-hover:bg-brand-gold group-hover:text-black"
-            : "bg-brand-red-orange/10 text-brand-red-orange group-hover:bg-brand-gradient group-hover:text-white"
-        }`}
-      >
-        <FaEnvelope className="text-xs" />
-      </div>
-      <span
-        className={`text-xs font-medium truncate transition-colors ${
-          theme === "dark"
-            ? "text-ink-dark-secondary group-hover:text-ink-dark-primary"
-            : "text-ink-light-secondary group-hover:text-ink-light-primary"
-        }`}
-      >
-       Send Mail
-      </span>
-    </a>
-
-    {/* Phone Numbers Group */}
-    <div
-      className={`p-3 rounded-2xl border space-y-2 ${
-        theme === "dark"
-          ? "bg-surface-dark-card/30 border-border-dark/50"
-          : "bg-white/40 border-border-light/60"
-      }`}
-    >
-      <div className="flex items-center gap-2 mb-1">
-        <FaPhoneAlt
-          className={`text-xs ${
-            theme === "dark" ? "text-brand-gold" : "text-brand-red-orange"
-          }`}
-        />
-        <span
-          className={`text-[11px] font-semibold tracking-wider uppercase ${
-            theme === "dark"
-              ? "text-ink-dark-secondary/70"
-              : "text-ink-light-secondary/70"
-          }`}
-        >
-          Phone Support
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 gap-1.5 pl-5">
-        {["+93 789785320", "+93 794560560", "+93 785790647"].map(
-          (phone, idx) => (
-            <a
-              key={idx}
-              href={`tel:${phone.replace(/\s+/g, "")}`}
-              className={`group flex items-center justify-between text-xs font-medium transition-colors ${
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="space-y-4"
+          >
+            <h4
+              className={`font-display font-semibold text-base tracking-wide ${
                 theme === "dark"
-                  ? "text-ink-dark-secondary hover:text-brand-gold"
-                  : "text-ink-light-secondary hover:text-brand-red-orange"
+                  ? "text-ink-dark-primary"
+                  : "text-ink-light-primary"
               }`}
             >
-              <span>{phone}</span>
-              <FaArrowRight className="text-[10px] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-            </a>
-          )
-        )}
-      </div>
-    </div>
-  </div>
-</motion.div>
+              Contact Us
+            </h4>
+
+            <div className="space-y-2.5 text-sm">
+              {/* Email Link */}
+              <a
+                href="mailto:excellent.kbl.travel@gmail.com"
+                className={`group flex items-center gap-3 p-2.5 rounded-xl transition-all duration-300 border ${
+                  theme === "dark"
+                    ? "bg-surface-dark-card/40 hover:bg-surface-dark-card border-border-dark/60 hover:border-brand-gold/40"
+                    : "bg-white/50 hover:bg-white border-border-light/80 hover:border-brand-red-orange/30 shadow-card-light"
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                    theme === "dark"
+                      ? "bg-brand-amber/10 text-brand-gold group-hover:bg-brand-gold group-hover:text-black"
+                      : "bg-brand-red-orange/10 text-brand-red-orange group-hover:bg-brand-gradient group-hover:text-white"
+                  }`}
+                >
+                  <FaEnvelope className="text-xs" />
+                </div>
+                <span
+                  className={`text-xs font-medium truncate transition-colors ${
+                    theme === "dark"
+                      ? "text-ink-dark-secondary group-hover:text-ink-dark-primary"
+                      : "text-ink-light-secondary group-hover:text-ink-light-primary"
+                  }`}
+                >
+                  Send Mail
+                </span>
+              </a>
+
+              {/* Phone Numbers Group */}
+              <div
+                className={`p-3 rounded-2xl border space-y-2 ${
+                  theme === "dark"
+                    ? "bg-surface-dark-card/30 border-border-dark/50"
+                    : "bg-white/40 border-border-light/60"
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <FaPhoneAlt
+                    className={`text-xs ${
+                      theme === "dark"
+                        ? "text-brand-gold"
+                        : "text-brand-red-orange"
+                    }`}
+                  />
+                  <span
+                    className={`text-[11px] font-semibold tracking-wider uppercase ${
+                      theme === "dark"
+                        ? "text-ink-dark-secondary/70"
+                        : "text-ink-light-secondary/70"
+                    }`}
+                  >
+                    Phone Support
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-1.5 pl-5">
+                  {["+93 789785320", "+93 794560560", "+93 785790647"].map(
+                    (phone, idx) => (
+                      <a
+                        key={idx}
+                        href={`tel:${phone.replace(/\s+/g, "")}`}
+                        className={`group flex items-center justify-between text-xs font-medium transition-colors ${
+                          theme === "dark"
+                            ? "text-ink-dark-secondary hover:text-brand-gold"
+                            : "text-ink-light-secondary hover:text-brand-red-orange"
+                        }`}
+                      >
+                        <span>{phone}</span>
+                        <FaArrowRight className="text-[10px] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                      </a>
+                    ),
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Bottom bar */}
@@ -259,14 +272,6 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Excellent Travel Agency. All
             rights reserved.
           </p>
-          <div className="flex gap-4">
-            <Link
-              to="/admin"
-              className={`text-xs transition-colors ${theme === "dark" ? "text-ink-dark-secondary hover:text-brand-gold" : "text-ink-light-secondary hover:text-brand-red-orange"}`}
-            >
-              Admin Panel
-            </Link>
-          </div>
         </div>
       </div>
     </footer>
