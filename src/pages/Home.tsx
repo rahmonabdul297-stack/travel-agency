@@ -18,15 +18,8 @@ import {
   FaConciergeBell,
 } from "@/lib/icons";
 import { useTheme } from "@/context/ThemeContext";
-import { getIcon } from "@/lib/icons";
-import { fetchServices, fetchSiteSettings, submitLead } from "@/lib/data";
-import type { Service, SiteSettings } from "@/lib/supabase";
 import LeadForm from "@/components/LeadForm";
 import { FaGraduationCap, FaHotel, FaKaaba } from "react-icons/fa6";
-
-type HomeProps = {
-  settings: SiteSettings | null;
-};
 
 const heroSlides = [
   "https://images.pexels.com/photos/5410501/pexels-photo-5410501.jpeg?auto=compress&cs=tinysrgb&w=1920",
@@ -63,14 +56,19 @@ const testimonials = [
   },
 ];
 
-export default function Home({ settings }: HomeProps) {
+const defaultServices = [
+  "Flight Tickets",
+  "Hotel Reservations",
+  "Travel Services",
+  "Umrah Packages",
+  "Student Visas",
+];
+
+export default function Home() {
   const { theme } = useTheme();
-  const [services, setServices] = useState<Service[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showQuickInquiry, setShowQuickInquiry] = useState(false);
-  const [quickStatus, setQuickStatus] = useState<
-    "idle" | "submitting" | "success"
-  >("idle");
+  const [quickStatus, setQuickStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [quickForm, setQuickForm] = useState({
     name: "",
     phone: "",
@@ -79,47 +77,25 @@ export default function Home({ settings }: HomeProps) {
   const leadFormRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetchServices().then(setServices).catch(console.error);
-  }, []);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
 
-  const scrollToLeadForm = () => {
-    leadFormRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  };
-
-  const handleQuickSubmit = async (e: React.FormEvent) => {
+  const handleQuickSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!quickForm.name || !quickForm.phone) return;
     setQuickStatus("submitting");
-    try {
-      await submitLead({
-        full_name: quickForm.name,
-        phone: quickForm.phone,
-        email: "",
-        service: quickForm.service,
-        destination: "",
-        travel_date: "",
-        message: "Quick inquiry from homepage",
-        document_url: "",
-      });
+
+    setTimeout(() => {
       setQuickStatus("success");
       setQuickForm({ name: "", phone: "", service: "" });
       setTimeout(() => {
         setShowQuickInquiry(false);
         setQuickStatus("idle");
       }, 2500);
-    } catch {
-      setQuickStatus("idle");
-    }
+    }, 1000);
   };
 
   return (
@@ -173,8 +149,8 @@ export default function Home({ settings }: HomeProps) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
           >
-            {settings?.agency_name || "Excellent Travel Agency"} — Your trusted
-            partner for flights, hotels, Umrah packages, and student visas.
+            Excellent Travel Agency — Your trusted partner for flights, hotels,
+            Umrah packages, and student visas.
           </motion.p>
 
           <motion.div
@@ -232,7 +208,11 @@ export default function Home({ settings }: HomeProps) {
 
       {/* Stats Bar */}
       <section
-        className={`py-12 ${theme === "dark" ? "bg-surface-dark-card border-y border-border-dark" : "bg-white border-y border-border-light"}`}
+        className={`py-12 ${
+          theme === "dark"
+            ? "bg-surface-dark-card border-y border-border-dark"
+            : "bg-white border-y border-border-light"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -249,12 +229,16 @@ export default function Home({ settings }: HomeProps) {
                   <stat.icon className="text-white text-xl" />
                 </div>
                 <div
-                  className={`font-display text-2xl lg:text-3xl font-bold ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+                  className={`font-display text-2xl lg:text-3xl font-bold ${
+                    theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+                  }`}
                 >
                   {stat.value}
                 </div>
                 <div
-                  className={`text-sm ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+                  className={`text-sm ${
+                    theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
+                  }`}
                 >
                   {stat.label}
                 </div>
@@ -278,18 +262,27 @@ export default function Home({ settings }: HomeProps) {
                 About Us
               </span>
               <h2
-                className={`font-display text-3xl lg:text-4xl font-bold mb-6 ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+                className={`font-display text-3xl lg:text-4xl font-bold mb-6 ${
+                  theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+                }`}
               >
                 Your Trusted Travel Partner
               </h2>
               <p
-                className={`text-base leading-relaxed mb-4 ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+                className={`text-base leading-relaxed mb-4 ${
+                  theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
+                }`}
               >
-                {settings?.about_text ||
-                  "Excellent Travel Agency is a professional travel and pilgrimage agency dedicated to providing reliable, convenient, and high-quality travel services. Our goal is to make travel planning easier, smoother, and more comfortable for our customers."}
+                Excellent Travel Agency is a professional travel and pilgrimage
+                agency dedicated to providing reliable, convenient, and
+                high-quality travel services. Our goal is to make travel
+                planning easier, smoother, and more comfortable for our
+                customers.
               </p>
               <p
-                className={`text-base leading-relaxed mb-6 ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+                className={`text-base leading-relaxed mb-6 ${
+                  theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
+                }`}
               >
                 Our services include domestic and international flight tickets,
                 hotel reservations, travel services, Umrah visa and packages,
@@ -308,7 +301,9 @@ export default function Home({ settings }: HomeProps) {
                   <div key={i} className="flex items-center gap-2">
                     <item.icon className="text-brand-red-orange shrink-0" />
                     <span
-                      className={`text-sm ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+                      className={`text-sm ${
+                        theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+                      }`}
                     >
                       {item.text}
                     </span>
@@ -378,7 +373,9 @@ export default function Home({ settings }: HomeProps) {
 
       {/* Services Grid */}
       <section
-        className={`py-20 lg:py-28 ${theme === "dark" ? "bg-surface-dark-card" : "bg-white"}`}
+        className={`py-20 lg:py-28 ${
+          theme === "dark" ? "bg-surface-dark-card" : "bg-white"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -391,127 +388,130 @@ export default function Home({ settings }: HomeProps) {
               Our Services
             </span>
             <h2
-              className={`font-display text-3xl lg:text-4xl font-bold mb-4 ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+              className={`font-display text-3xl lg:text-4xl font-bold mb-4 ${
+                theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+              }`}
             >
               What We Offer
             </h2>
             <p
-              className={`text-base max-w-2xl mx-auto ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+              className={`text-base max-w-2xl mx-auto ${
+                theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
+              }`}
             >
               Comprehensive travel services designed to make your journey smooth
               and memorable.
             </p>
           </motion.div>
 
-         {/* service card */}
-         <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ delay: 0.2 }}
-  className="w-full"
->
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {[
-      {
-        to: "/services",
-        title: "Flight Tickets",
-        desc: "Domestic & international routes",
-        icon: FaPlane,
-      },
-      {
-        to: "/services",
-        title: "Hotel Reservations",
-        desc: "Worldwide accommodation bookings",
-        icon: FaHotel,
-      },
-      {
-        to: "/services",
-        title: "Travel Services",
-        desc: "Insurance, transfers & tours",
-        icon: FaConciergeBell,
-      },
-      {
-        to: "/services",
-        title: "Umrah Packages",
-        desc: "14, 21 & 28-day spiritual stays",
-        icon: FaKaaba,
-      },
-      {
-        to: "/services",
-        title: "Student Visas",
-        desc: "Turkey & China university placement",
-        icon: FaGraduationCap,
-      },
-    ].map((item, idx) => {
-      const IconComponent = item.icon;
-      return (
-        <motion.div
-          key={idx}
-          whileHover={{ y: -4, scale: 1.02 }}
-          transition={{ duration: 0.2 }}
-        >
-          <Link
-            to={item.to}
-            className={`group relative flex items-start gap-3.5 p-4 rounded-2xl overflow-hidden transition-all duration-500 backdrop-blur-md ${
-              theme === "dark"
-                ? "bg-surface-dark-card/60 hover:bg-surface-dark-card/90 shadow-lg border border-border-dark/60 hover:border-brand-gold"
-                : "bg-white/70 hover:bg-white/95 shadow-card-light border border-border-light/80 hover:border-brand-red-orange"
-            }`}
+          {/* service card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="w-full"
           >
-            {/* Animated Border Glow Highlight */}
-            <span
-              className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl ring-1 ${
-                theme === "dark"
-                  ? "ring-brand-gold/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]"
-                  : "ring-brand-red-orange/40 shadow-[0_0_15px_rgba(239,68,68,0.12)]"
-              }`}
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                {
+                  to: "/services",
+                  title: "Flight Tickets",
+                  desc: "Domestic & international routes",
+                  icon: FaPlane,
+                },
+                {
+                  to: "/services",
+                  title: "Hotel Reservations",
+                  desc: "Worldwide accommodation bookings",
+                  icon: FaHotel,
+                },
+                {
+                  to: "/services",
+                  title: "Travel Services",
+                  desc: "Insurance, transfers & tours",
+                  icon: FaConciergeBell,
+                },
+                {
+                  to: "/services",
+                  title: "Umrah Packages",
+                  desc: "14, 21 & 28-day spiritual stays",
+                  icon: FaKaaba,
+                },
+                {
+                  to: "/services",
+                  title: "Student Visas",
+                  desc: "Turkey & China university placement",
+                  icon: FaGraduationCap,
+                },
+              ].map((item, idx) => {
+                const IconComponent = item.icon;
+                return (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Link
+                      to={item.to}
+                      className={`group relative flex items-start gap-3.5 p-4 rounded-2xl overflow-hidden transition-all duration-500 backdrop-blur-md ${
+                        theme === "dark"
+                          ? "bg-surface-dark-card/60 hover:bg-surface-dark-card/90 shadow-lg border border-border-dark/60 hover:border-brand-gold"
+                          : "bg-white/70 hover:bg-white/95 shadow-card-light border border-border-light/80 hover:border-brand-red-orange"
+                      }`}
+                    >
+                      <span
+                        className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl ring-1 ${
+                          theme === "dark"
+                            ? "ring-brand-gold/50 shadow-[0_0_15px_rgba(245,158,11,0.15)]"
+                            : "ring-brand-red-orange/40 shadow-[0_0_15px_rgba(239,68,68,0.12)]"
+                        }`}
+                      />
 
-            {/* Icon Container */}
-            <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 ${
-                theme === "dark"
-                  ? "bg-surface-dark-hover text-brand-gold group-hover:bg-brand-gradient group-hover:text-white"
-                  : "bg-gray-100 text-brand-red-orange group-hover:bg-brand-gradient group-hover:text-white"
-              }`}
-            >
-              <IconComponent className="text-lg" />
-            </div>
+                      <div
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 ${
+                          theme === "dark"
+                            ? "bg-surface-dark-hover text-brand-gold group-hover:bg-brand-gradient group-hover:text-white"
+                            : "bg-gray-100 text-brand-red-orange group-hover:bg-brand-gradient group-hover:text-white"
+                        }`}
+                      >
+                        <IconComponent className="text-lg" />
+                      </div>
 
-            {/* Content Details */}
-            <div className="flex-1">
-              <span
-                className={`text-sm font-semibold block mb-0.5 transition-colors duration-300 ${
-                  theme === "dark"
-                    ? "text-ink-dark-primary group-hover:text-brand-gold"
-                    : "text-ink-light-primary group-hover:text-brand-red-orange"
-                }`}
-              >
-                {item.title}
-              </span>
-              <span
-                className={`text-xs leading-relaxed block ${
-                  theme === "dark"
-                    ? "text-ink-dark-secondary/80"
-                    : "text-ink-light-secondary/80"
-                }`}
-              >
-                {item.desc}
-              </span>
+                      <div className="flex-1">
+                        <span
+                          className={`text-sm font-semibold block mb-0.5 transition-colors duration-300 ${
+                            theme === "dark"
+                              ? "text-ink-dark-primary group-hover:text-brand-gold"
+                              : "text-ink-light-primary group-hover:text-brand-red-orange"
+                          }`}
+                        >
+                          {item.title}
+                        </span>
+                        <span
+                          className={`text-xs leading-relaxed block ${
+                            theme === "dark"
+                              ? "text-ink-dark-secondary/80"
+                              : "text-ink-light-secondary/80"
+                          }`}
+                        >
+                          {item.desc}
+                        </span>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
-          </Link>
-        </motion.div>
-      );
-    })}
-  </div>
-</motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Testimonials */}
       <section
-        className={`py-20 lg:py-28 ${theme === "dark" ? "bg-surface-dark-card" : "bg-white"}`}
+        className={`py-20 lg:py-28 ${
+          theme === "dark" ? "bg-surface-dark-card" : "bg-white"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -524,7 +524,9 @@ export default function Home({ settings }: HomeProps) {
               Testimonials
             </span>
             <h2
-              className={`font-display text-3xl lg:text-4xl font-bold ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+              className={`font-display text-3xl lg:text-4xl font-bold ${
+                theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+              }`}
             >
               What Our Clients Say
             </h2>
@@ -546,7 +548,9 @@ export default function Home({ settings }: HomeProps) {
               >
                 <FaQuoteLeft className="text-2xl text-brand-red-orange/30 mb-4" />
                 <p
-                  className={`text-sm leading-relaxed mb-4 ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+                  className={`text-sm leading-relaxed mb-4 ${
+                    theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
+                  }`}
                 >
                   "{t.text}"
                 </p>
@@ -561,12 +565,16 @@ export default function Home({ settings }: HomeProps) {
                   </div>
                   <div>
                     <div
-                      className={`font-semibold text-sm ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+                      className={`font-semibold text-sm ${
+                        theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+                      }`}
                     >
                       {t.name}
                     </div>
                     <div
-                      className={`text-xs ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+                      className={`text-xs ${
+                        theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
+                      }`}
                     >
                       {t.role}
                     </div>
@@ -598,24 +606,20 @@ export default function Home({ settings }: HomeProps) {
                 travel needs.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                {settings?.phone && (
-                  <a
-                    href={`tel:${settings.phone}`}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-brand-red-orange font-semibold hover:scale-105 transition-transform"
-                  >
-                    <FaPhone /> {settings.phone}
-                  </a>
-                )}
-                {settings?.whatsapp && (
-                  <a
-                    href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-green-500 text-white font-semibold hover:scale-105 transition-transform"
-                  >
-                    <FaWhatsapp /> WhatsApp Us
-                  </a>
-                )}
+                <a
+                  href="tel:+1234567890"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-brand-red-orange font-semibold hover:scale-105 transition-transform"
+                >
+                  <FaPhone /> Call Us
+                </a>
+                <a
+                  href="https://wa.me/1234567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-green-500 text-white font-semibold hover:scale-105 transition-transform"
+                >
+                  <FaWhatsapp /> WhatsApp Us
+                </a>
                 <Link
                   to="/contact"
                   className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/30 text-white font-semibold hover:bg-white/20 transition-colors"
@@ -677,12 +681,16 @@ export default function Home({ settings }: HomeProps) {
                     <FaCheckCircle className="text-3xl text-green-500" />
                   </motion.div>
                   <h3
-                    className={`font-display text-lg font-bold mb-2 ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+                    className={`font-display text-lg font-bold mb-2 ${
+                      theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+                    }`}
                   >
                     Thank You!
                   </h3>
                   <p
-                    className={`text-sm ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+                    className={`text-sm ${
+                      theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
+                    }`}
                   >
                     We will contact you within 24 hours.
                   </p>
@@ -690,7 +698,9 @@ export default function Home({ settings }: HomeProps) {
               ) : (
                 <>
                   <h3
-                    className={`font-display text-xl font-bold mb-4 ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+                    className={`font-display text-xl font-bold mb-4 ${
+                      theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
+                    }`}
                   >
                     Quick Inquiry
                   </h3>
@@ -702,7 +712,9 @@ export default function Home({ settings }: HomeProps) {
                       onChange={(e) =>
                         setQuickForm({ ...quickForm, name: e.target.value })
                       }
-                      className={`input-field ${theme === "dark" ? "input-field-dark" : "input-field-light"}`}
+                      className={`input-field ${
+                        theme === "dark" ? "input-field-dark" : "input-field-light"
+                      }`}
                       required
                     />
                     <input
@@ -712,7 +724,9 @@ export default function Home({ settings }: HomeProps) {
                       onChange={(e) =>
                         setQuickForm({ ...quickForm, phone: e.target.value })
                       }
-                      className={`input-field ${theme === "dark" ? "input-field-dark" : "input-field-light"}`}
+                      className={`input-field ${
+                        theme === "dark" ? "input-field-dark" : "input-field-light"
+                      }`}
                       required
                     />
                     <select
@@ -720,12 +734,14 @@ export default function Home({ settings }: HomeProps) {
                       onChange={(e) =>
                         setQuickForm({ ...quickForm, service: e.target.value })
                       }
-                      className={`input-field ${theme === "dark" ? "input-field-dark" : "input-field-light"}`}
+                      className={`input-field ${
+                        theme === "dark" ? "input-field-dark" : "input-field-light"
+                      }`}
                     >
                       <option value="">Select a service...</option>
-                      {services.map((s) => (
-                        <option key={s.id} value={s.title}>
-                          {s.title}
+                      {defaultServices.map((title, i) => (
+                        <option key={i} value={title}>
+                          {title}
                         </option>
                       ))}
                     </select>

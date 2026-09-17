@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  FaCheckCircle,
   FaUsers,
   FaAward,
   FaShieldAlt,
@@ -10,18 +9,15 @@ import {
   FaHandshake,
   FaRocket,
   FaStar,
-  FaPlay,
   FaTimes,
   FaGlobeAmericas,
   FaPassport,
   FaBuilding,
 } from "@/lib/icons";
 import { useTheme } from "@/context/ThemeContext";
-import { fetchSiteSettings } from "@/lib/data";
-import type { SiteSettings } from "@/lib/supabase";
 
 type AboutProps = {
-  settings: SiteSettings | null;
+  aboutText?: string;
 };
 
 const values = [
@@ -88,24 +84,14 @@ const capabilities = [
   },
 ];
 
-export default function About({ settings }: AboutProps) {
+export default function About({ aboutText }: AboutProps) {
   const { theme } = useTheme();
-  const [localSettings, setLocalSettings] = useState<SiteSettings | null>(
-    settings,
-  );
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (!settings) {
-      fetchSiteSettings().then(setLocalSettings).catch(console.error);
-    }
-  }, [settings]);
 
   return (
     <div className={theme === "dark" ? "bg-surface-dark" : "bg-surface-light"}>
-      {/* Hero Section with 100% Crisp & Original Video Background */}
+      {/* Hero Section with Video Background */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden pt-32 pb-20">
-        {/* Clean Video Background (Overlays completely removed) */}
         <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
           <video
             autoPlay
@@ -146,20 +132,13 @@ export default function About({ settings }: AboutProps) {
             transition={{ delay: 0.2 }}
             className="text-base sm:text-lg lg:text-xl leading-relaxed text-white max-w-3xl mx-auto font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] mb-8"
           >
-            {localSettings?.about_text ||
+            {aboutText ||
               "Excellent Travel Agency is a professional travel and pilgrimage agency dedicated to providing reliable, convenient, and high-quality travel services."}
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex items-center justify-center gap-4"
-          />
         </div>
       </section>
 
-      {/* Core Capabilities (Clean Solid Cards without backdrop blur) */}
+      {/* Core Capabilities */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {capabilities.map((cap, i) => (
@@ -474,14 +453,14 @@ export default function About({ settings }: AboutProps) {
         </div>
       </section>
 
-      {/* Video Modal Player using Local Video */}
+      {/* Video Modal Player */}
       <AnimatePresence>
         {isVideoModalOpen && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center  p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
             onClick={() => setIsVideoModalOpen(false)}
           >
             <motion.div

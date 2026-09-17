@@ -10,8 +10,8 @@ import Contact from "@/pages/Contact";
 import Services from "@/pages/ServiceDetail"; // Uses static Services component
 import NotFound from "@/pages/NotFound";
 // import Admin from "@/pages/Admin";
-import { fetchSiteSettings } from "@/lib/data";
-import type { SiteSettings } from "@/lib/supabase";
+// import { fetchSiteSettings } from "@/lib/data";
+// import type { SiteSettings } from "@/lib/supabase";
 import { FaWhatsapp } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import { MdKeyboardDoubleArrowUp } from "react-icons/md";
@@ -44,12 +44,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 function AppContent() {
   const location = useLocation();
   const { theme } = useTheme();
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
-
-  useEffect(() => {
-    fetchSiteSettings().then(setSettings).catch(console.error);
-  }, []);
-
+ 
   return (
     <div
       className={`min-h-screen flex flex-col ${
@@ -75,7 +70,7 @@ function AppContent() {
               path="/"
               element={
                 <PageWrapper>
-                  <Home settings={settings} />
+                  <Home  />
                 </PageWrapper>
               }
             />
@@ -83,7 +78,7 @@ function AppContent() {
               path="/about"
               element={
                 <PageWrapper>
-                  <About settings={settings} />
+                  <About />
                 </PageWrapper>
               }
             />
