@@ -42,7 +42,7 @@ export default function Home() {
 
   const stats = [
     { icon: FaUsers, value: "10,000+", label: t("home.stats.happy_travelers", "Happy Travelers") },
-    { icon: FaAward, value: "15+", label: t("home.stats.years_experience", "Years Experience") },
+    // { icon: FaAward, value: "15+", label: t("home.stats.years_experience", "Years Experience") },
     { icon: FaPlane, value: "50+", label: t("home.stats.destinations", "Destinations") },
     { icon: FaShieldAlt, value: "100%", label: t("home.stats.secure_booking", "Secure Booking") },
   ];
