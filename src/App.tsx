@@ -136,7 +136,7 @@ function AppContent() {
           size={24}
         />
         <a
-          href="https://wa.me/93789785320"
+          href="https://wa.me/+93789785320"
           target="_blank"
           rel="noopener noreferrer"
           className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-300 hover:scale-110 border border-yellow-600 bg-green-600"

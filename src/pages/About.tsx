@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import {
   FaUsers,
   FaAward,
@@ -20,73 +21,81 @@ type AboutProps = {
   aboutText?: string;
 };
 
-const values = [
-  {
-    icon: FaShieldAlt,
-    title: "Reliability",
-    text: "We deliver on our promises, ensuring every trip is handled with the utmost care and professionalism.",
-  },
-  {
-    icon: FaHandshake,
-    title: "Trust",
-    text: "Building long-term relationships with our clients through honest, transparent service.",
-  },
-  {
-    icon: FaAward,
-    title: "Quality",
-    text: "We partner with the best airlines, hotels, and service providers to ensure premium experiences.",
-  },
-  {
-    icon: FaHeadset,
-    title: "Support",
-    text: "Our team is available 24/7 to assist you before, during, and after your journey.",
-  },
-];
-
-const milestones = [
-  {
-    year: "2010",
-    title: "Founded",
-    text: "Excellent Travel Agency was established with a vision to simplify travel.",
-  },
-  {
-    year: "2015",
-    title: "Expanded Services",
-    text: "Added Umrah packages and student visa services to our portfolio.",
-  },
-  {
-    year: "2020",
-    title: "10,000+ Travelers",
-    text: "Surpassed 10,000 satisfied travelers across all our services.",
-  },
-  {
-    year: "2025",
-    title: "Global Reach",
-    text: "Now serving 50+ destinations worldwide with a dedicated team.",
-  },
-];
-
-const capabilities = [
-  {
-    icon: FaGlobeAmericas,
-    title: "Global Air Ticketing",
-    desc: "Direct access to major worldwide and regional flight routes with flexible fares.",
-  },
-  {
-    icon: FaPassport,
-    title: "Visa Consultancy",
-    desc: "Specialized visa guidance for international educational pathways and pilgrimages.",
-  },
-  {
-    icon: FaBuilding,
-    title: "Direct Hotel Bookings",
-    desc: "Partnered accommodations ranging from luxury suites to close-to-Haram stays.",
-  },
-];
-
 export default function About({ aboutText }: AboutProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
+  const capabilities = [
+    {
+      icon: FaGlobeAmericas,
+      title: t("about_page.capabilities.air_ticketing_title", "Global Air Ticketing"),
+      desc: t("about_page.capabilities.air_ticketing_desc", "Direct access to major worldwide and regional flight routes with flexible fares."),
+    },
+    {
+      icon: FaPassport,
+      title: t("about_page.capabilities.visa_title", "Visa Consultancy"),
+      desc: t("about_page.capabilities.visa_desc", "Specialized visa guidance for international educational pathways and pilgrimages."),
+    },
+    {
+      icon: FaBuilding,
+      title: t("about_page.capabilities.hotel_title", "Direct Hotel Bookings"),
+      desc: t("about_page.capabilities.hotel_desc", "Partnered accommodations ranging from luxury suites to close-to-Haram stays."),
+    },
+  ];
+
+  const values = [
+    {
+      icon: FaShieldAlt,
+      title: t("about_page.values.reliability_title", "Reliability"),
+      text: t("about_page.values.reliability_desc", "We deliver on our promises, ensuring every trip is handled with the utmost care and professionalism."),
+    },
+    {
+      icon: FaHandshake,
+      title: t("about_page.values.trust_title", "Trust"),
+      text: t("about_page.values.trust_desc", "Building long-term relationships with our clients through honest, transparent service."),
+    },
+    {
+      icon: FaAward,
+      title: t("about_page.values.quality_title", "Quality"),
+      text: t("about_page.values.quality_desc", "We partner with the best airlines, hotels, and service providers to ensure premium experiences."),
+    },
+    {
+      icon: FaHeadset,
+      title: t("about_page.values.support_title", "Support"),
+      text: t("about_page.values.support_desc", "Our team is available 24/7 to assist you before, during, and after your journey."),
+    },
+  ];
+
+  const milestones = [
+    {
+      year: "",
+      title: t("about_page.growth.m1_title", "Founded"),
+      text: t("about_page.growth.m1_desc", "Excellent Travel Agency was established with a vision to simplify travel."),
+    },
+    {
+      year: "",
+      title: t("about_page.growth.m2_title", "Expanded Services"),
+      text: t("about_page.growth.m2_desc", "Added Umrah packages and student visa services to our portfolio."),
+    },
+    {
+      year: "",
+      title: t("about_page.growth.m3_title", "10,000+ Travelers"),
+      text: t("about_page.growth.m3_desc", "Surpassed 10,000 satisfied travelers across all our services."),
+    },
+    {
+      year: "",
+      title: t("about_page.growth.m4_title", "Global Reach"),
+      text: t("about_page.growth.m4_desc", "Now serving 50+ destinations worldwide with a dedicated team."),
+    },
+  ];
+
+  const stats = [
+    { icon: FaUsers, value: "10,000+", label: t("about_page.stats.happy_travelers", "Happy Travelers") },
+    { icon: FaPlane, value: "50+", label: t("about_page.stats.destinations", "Destinations") },
+    { icon: FaAward, value: "24/7", label: t("about_page.stats.travel_assistance", "Travel Assistance") },
+    { icon: FaShieldAlt, value: "100%", label: t("about_page.stats.secure_booking", "Secure Booking") },
+  ];
 
   return (
     <div className={theme === "dark" ? "bg-surface-dark" : "bg-surface-light"}>
@@ -113,7 +122,7 @@ export default function About({ aboutText }: AboutProps) {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-brand-gold text-sm font-semibold mb-4"
           >
-            About Us
+            {t("about_page.badge", "About Us")}
           </motion.span>
 
           <motion.h1
@@ -122,8 +131,8 @@ export default function About({ aboutText }: AboutProps) {
             transition={{ delay: 0.1 }}
             className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
           >
-            Excellence in{" "}
-            <span className="brand-text-gradient">Travel Services</span>
+            {t("about_page.hero_title_1", "Excellence in")}{" "}
+            <span className="brand-text-gradient">{t("about_page.hero_title_2", "Travel Services")}</span>
           </motion.h1>
 
           <motion.p
@@ -133,7 +142,10 @@ export default function About({ aboutText }: AboutProps) {
             className="text-base sm:text-lg lg:text-xl leading-relaxed text-white max-w-3xl mx-auto font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] mb-8"
           >
             {aboutText ||
-              "Excellent Travel Agency is a professional travel and pilgrimage agency dedicated to providing reliable, convenient, and high-quality travel services."}
+              t(
+                "about_page.hero_subtitle",
+                "Excellent Travel Agency is a professional travel and pilgrimage agency dedicated to providing reliable, convenient, and high-quality travel services."
+              )}
           </motion.p>
         </div>
       </section>
@@ -204,7 +216,7 @@ export default function About({ aboutText }: AboutProps) {
                     : "text-ink-light-primary"
                 }`}
               >
-                Our Mission
+                {t("about_page.mission.title", "Our Mission")}
               </h2>
               <p
                 className={`text-sm leading-relaxed ${
@@ -213,9 +225,10 @@ export default function About({ aboutText }: AboutProps) {
                     : "text-ink-light-secondary"
                 }`}
               >
-                To make travel planning easier, smoother, and more comfortable
-                for our customers by providing reliable, convenient, and
-                high-quality travel services tailored to their needs.
+                {t(
+                  "about_page.mission.desc",
+                  "To make travel planning easier, smoother, and more comfortable for our customers by providing reliable, convenient, and high-quality travel services tailored to their needs."
+                )}
               </p>
             </motion.div>
 
@@ -239,7 +252,7 @@ export default function About({ aboutText }: AboutProps) {
                     : "text-ink-light-primary"
                 }`}
               >
-                Our Vision
+                {t("about_page.vision.title", "Our Vision")}
               </h2>
               <p
                 className={`text-sm leading-relaxed ${
@@ -248,9 +261,10 @@ export default function About({ aboutText }: AboutProps) {
                     : "text-ink-light-secondary"
                 }`}
               >
-                To be the most trusted travel agency, recognized for excellence
-                in pilgrimage services, student visa assistance, and global
-                travel solutions — a reliable way towards a brighter future.
+                {t(
+                  "about_page.vision.desc",
+                  "To be the most trusted travel agency, recognized for excellence in pilgrimage services, student visa assistance, and global travel solutions — a reliable way towards a brighter future."
+                )}
               </p>
             </motion.div>
           </div>
@@ -277,7 +291,7 @@ export default function About({ aboutText }: AboutProps) {
                   : "text-ink-light-primary"
               }`}
             >
-              Our Core Values
+              {t("about_page.values.title", "Our Core Values")}
             </h2>
             <p
               className={`text-base ${
@@ -286,7 +300,7 @@ export default function About({ aboutText }: AboutProps) {
                   : "text-ink-light-secondary"
               }`}
             >
-              The principles that guide everything we do.
+              {t("about_page.values.subtitle", "The principles that guide everything we do.")}
             </p>
           </motion.div>
 
@@ -348,7 +362,7 @@ export default function About({ aboutText }: AboutProps) {
                   : "text-ink-light-primary"
               }`}
             >
-              Our Journey
+              {t("about_page.growth.title", "Our Growth")}
             </h2>
           </motion.div>
 
@@ -373,11 +387,13 @@ export default function About({ aboutText }: AboutProps) {
                           : "bg-white border border-border-light shadow-card-light"
                       }`}
                     >
-                      <span className="text-brand-gradient bg-clip-text font-display text-2xl font-bold">
-                        {m.year}
-                      </span>
+                      {m.year && (
+                        <span className="text-brand-gradient bg-clip-text font-display text-2xl font-bold">
+                          {m.year}
+                        </span>
+                      )}
                       <h3
-                        className={`font-display font-bold mt-2 mb-1 ${
+                        className={`font-display font-bold mt-1 mb-1 ${
                           theme === "dark"
                             ? "text-ink-dark-primary"
                             : "text-ink-light-primary"
@@ -412,12 +428,7 @@ export default function About({ aboutText }: AboutProps) {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: FaUsers, value: "10,000+", label: "Happy Travelers" },
-              { icon: FaAward, value: "15+", label: "Years Experience" },
-              { icon: FaPlane, value: "50+", label: "Destinations" },
-              { icon: FaShieldAlt, value: "100%", label: "Secure Booking" },
-            ].map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.8 }}

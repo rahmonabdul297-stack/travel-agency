@@ -48,11 +48,13 @@ import {
   FaRocket,
 } from "react-icons/fa";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { TbWorld } from "react-icons/tb";
 
 export const iconMap: Record<
   string,
   React.ComponentType<{ className?: string }>
 > = {
+  TbWorld,
   FaPlane,
   FaHotel,
   FaUmbrellaBeach,
@@ -111,6 +113,7 @@ export function getIcon(
 }
 
 export {
+  TbWorld,
   FaPlane,
   FaHotel,
   FaUmbrellaBeach,

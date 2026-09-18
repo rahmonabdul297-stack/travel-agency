@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import {
   FaArrowRight,
   FaCheckCircle,
@@ -18,7 +19,6 @@ import {
   FaConciergeBell,
 } from "@/lib/icons";
 import { useTheme } from "@/context/ThemeContext";
-import LeadForm from "@/components/LeadForm";
 import { FaGraduationCap, FaHotel, FaKaaba } from "react-icons/fa6";
 
 const heroSlides = [
@@ -28,44 +28,9 @@ const heroSlides = [
   "https://images.pexels.com/photos/8106840/pexels-photo-8106840.jpeg?auto=compress&cs=tinysrgb&w=1920",
 ];
 
-const stats = [
-  { icon: FaUsers, value: "10,000+", label: "Happy Travelers" },
-  { icon: FaAward, value: "15+", label: "Years Experience" },
-  { icon: FaPlane, value: "50+", label: "Destinations" },
-  { icon: FaShieldAlt, value: "100%", label: "Secure Booking" },
-];
-
-const testimonials = [
-  {
-    name: "Ahmed Hassan",
-    text: "Excellent Travel Agency made our Umrah trip absolutely seamless. From visa to hotel near the Haram, everything was perfect.",
-    role: "Umrah Pilgrim",
-    rating: 5,
-  },
-  {
-    name: "Fatima Noor",
-    text: "They helped me get my student visa for Turkey. The team was supportive at every step, from university selection to visa filing.",
-    role: "Student, Turkey",
-    rating: 5,
-  },
-  {
-    name: "Bilal Khan",
-    text: "Best travel agency I have worked with. Their flight ticket prices are unbeatable and the service is always professional.",
-    role: "Business Traveler",
-    rating: 5,
-  },
-];
-
-const defaultServices = [
-  "Flight Tickets",
-  "Hotel Reservations",
-  "Travel Services",
-  "Umrah Packages",
-  "Student Visas",
-];
-
 export default function Home() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showQuickInquiry, setShowQuickInquiry] = useState(false);
   const [quickStatus, setQuickStatus] = useState<"idle" | "submitting" | "success">("idle");
@@ -74,7 +39,67 @@ export default function Home() {
     phone: "",
     service: "",
   });
-  const leadFormRef = useRef<HTMLDivElement>(null);
+
+  const stats = [
+    { icon: FaUsers, value: "10,000+", label: t("home.stats.happy_travelers", "Happy Travelers") },
+    { icon: FaAward, value: "15+", label: t("home.stats.years_experience", "Years Experience") },
+    { icon: FaPlane, value: "50+", label: t("home.stats.destinations", "Destinations") },
+    { icon: FaShieldAlt, value: "100%", label: t("home.stats.secure_booking", "Secure Booking") },
+  ];
+
+  const testimonials = [
+    {
+      name: t("home.testimonials.t1_name", "Ahmed Hassan"),
+      text: t("home.testimonials.t1_text", "Excellent Travel Agency made our Umrah trip absolutely seamless. From visa to hotel near the Haram, everything was perfect."),
+      role: t("home.testimonials.t1_role", "Umrah Pilgrim"),
+      rating: 5,
+    },
+    {
+      name: t("home.testimonials.t2_name", "Fatima Noor"),
+      text: t("home.testimonials.t2_text", "They helped me get my student visa for Turkey. The team was supportive at every step, from university selection to visa filing."),
+      role: t("home.testimonials.t2_role", "Student, Turkey"),
+      rating: 5,
+    },
+    {
+      name: t("home.testimonials.t3_name", "Bilal Khan"),
+      text: t("home.testimonials.t3_text", "Best travel agency I have worked with. Their flight ticket prices are unbeatable and the service is always professional."),
+      role: t("home.testimonials.t3_role", "Business Traveler"),
+      rating: 5,
+    },
+  ];
+
+  const servicesList = [
+    {
+      to: "/services",
+      title: t("home.services.flight_title", "Flight Tickets"),
+      desc: t("home.services.flight_desc", "Domestic & international routes"),
+      icon: FaPlane,
+    },
+    {
+      to: "/services",
+      title: t("home.services.hotel_title", "Hotel Reservations"),
+      desc: t("home.services.hotel_desc", "Worldwide accommodation bookings"),
+      icon: FaHotel,
+    },
+    {
+      to: "/services",
+      title: t("home.services.travel_title", "Travel Services"),
+      desc: t("home.services.travel_desc", "Insurance, transfers & tours"),
+      icon: FaConciergeBell,
+    },
+    {
+      to: "/services",
+      title: t("home.services.umrah_title", "Umrah Packages"),
+      desc: t("home.services.umrah_desc", "14, 21 & 28-day spiritual stays"),
+      icon: FaKaaba,
+    },
+    {
+      to: "/services",
+      title: t("home.services.student_title", "Student Visas"),
+      desc: t("home.services.student_desc", "Turkey & China university placement"),
+      icon: FaGraduationCap,
+    },
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -128,7 +153,7 @@ export default function Home() {
           >
             <FaStar className="text-brand-gold text-sm" />
             <span className="text-white/90 text-sm font-medium">
-              Trusted by 10,000+ travelers worldwide
+              {t("home.hero_badge", "Trusted by 10,000+ travelers worldwide")}
             </span>
           </motion.div>
 
@@ -138,9 +163,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="font-display text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 text-balance"
           >
-            A Reliable Way Towards
+            {t("home.hero_title_1", "A Reliable Way Towards")}
             <br />
-            <span className="brand-text-gradient">a Brighter Future</span>
+            <span className="brand-text-gradient">{t("home.hero_title_2", "a Brighter Future")}</span>
           </motion.h1>
 
           <motion.p
@@ -149,8 +174,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
           >
-            Excellent Travel Agency — Your trusted partner for flights, hotels,
-            Umrah packages, and student visas.
+            {t(
+              "home.hero_subtitle",
+              "Excellent Travel Agency — Your trusted partner for flights, hotels, Umrah packages, and student visas."
+            )}
           </motion.p>
 
           <motion.div
@@ -163,13 +190,13 @@ export default function Home() {
               onClick={() => setShowQuickInquiry(true)}
               className="btn-brand text-base px-8 py-4 flex items-center gap-2"
             >
-              Quick Inquiry <FaArrowRight />
+              {t("home.quick_inquiry", "Quick Inquiry")} <FaArrowRight className="rtl:rotate-180" />
             </button>
             <Link
               to="/about"
               className="px-8 py-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold hover:bg-white/20 transition-all duration-300"
             >
-              Learn More
+              {t("home.learn_more", "Learn More")}
             </Link>
           </motion.div>
 
@@ -259,44 +286,44 @@ export default function Home() {
               transition={{ duration: 0.7 }}
             >
               <span className="inline-block px-4 py-1.5 rounded-full bg-brand-gradient/10 text-brand-red-orange text-sm font-semibold mb-4">
-                About Us
+                {t("home.about.badge", "About Us")}
               </span>
               <h2
                 className={`font-display text-3xl lg:text-4xl font-bold mb-6 ${
                   theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
                 }`}
               >
-                Your Trusted Travel Partner
+                {t("home.about.title", "Your Trusted Travel Partner")}
               </h2>
               <p
                 className={`text-base leading-relaxed mb-4 ${
                   theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
                 }`}
               >
-                Excellent Travel Agency is a professional travel and pilgrimage
-                agency dedicated to providing reliable, convenient, and
-                high-quality travel services. Our goal is to make travel
-                planning easier, smoother, and more comfortable for our
-                customers.
+                {t(
+                  "home.about.p1",
+                  "Excellent Travel Agency is a professional travel and pilgrimage agency dedicated to providing reliable, convenient, and high-quality travel services. Our goal is to make travel planning easier, smoother, and more comfortable for our customers."
+                )}
               </p>
               <p
                 className={`text-base leading-relaxed mb-6 ${
                   theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
                 }`}
               >
-                Our services include domestic and international flight tickets,
-                hotel reservations, travel services, Umrah visa and packages,
-                and student visa services.
+                {t(
+                  "home.about.p2",
+                  "Our services include domestic and international flight tickets, hotel reservations, travel services, Umrah visa and packages, and student visa services."
+                )}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                 {[
                   {
                     icon: FaCheckCircle,
-                    text: "Reliable & Professional Service",
+                    text: t("home.about.feature_1", "Reliable & Professional Service"),
                   },
-                  { icon: FaCheckCircle, text: "Competitive Pricing" },
-                  { icon: FaCheckCircle, text: "24/7 Customer Support" },
-                  { icon: FaCheckCircle, text: "Experienced Travel Experts" },
+                  { icon: FaCheckCircle, text: t("home.about.feature_2", "Competitive Pricing") },
+                  { icon: FaCheckCircle, text: t("home.about.feature_3", "24/7 Customer Support") },
+                  { icon: FaCheckCircle, text: t("home.about.feature_4", "Experienced Travel Experts") },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <item.icon className="text-brand-red-orange shrink-0" />
@@ -314,7 +341,7 @@ export default function Home() {
                 to="/about"
                 className="btn-brand inline-flex items-center gap-2"
               >
-                Read More <FaArrowRight className="text-xs" />
+                {t("home.about.read_more", "Read More")} <FaArrowRight className="text-xs rtl:rotate-180" />
               </Link>
             </motion.div>
 
@@ -354,14 +381,14 @@ export default function Home() {
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -bottom-6 -left-6 px-6 py-4 rounded-2xl bg-brand-gradient text-white shadow-brand-glow-lg"
+                className="absolute -bottom-6 -left-6 rtl:-left-auto rtl:-right-6 px-6 py-4 rounded-2xl bg-brand-gradient text-white shadow-brand-glow-lg"
               >
                 <div className="flex items-center gap-3">
                   <FaHeadset className="text-2xl" />
                   <div>
                     <div className="font-bold text-lg">24/7</div>
                     <div className="text-xs text-white/80">
-                      Support Available
+                      {t("home.about.support_24_7", "Support Available")}
                     </div>
                   </div>
                 </div>
@@ -385,26 +412,28 @@ export default function Home() {
             className="text-center mb-12"
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-brand-gradient/10 text-brand-red-orange text-sm font-semibold mb-4">
-              Our Services
+              {t("home.services.badge", "Our Services")}
             </span>
             <h2
               className={`font-display text-3xl lg:text-4xl font-bold mb-4 ${
                 theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
               }`}
             >
-              What We Offer
+              {t("home.services.title", "What We Offer")}
             </h2>
             <p
               className={`text-base max-w-2xl mx-auto ${
                 theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
               }`}
             >
-              Comprehensive travel services designed to make your journey smooth
-              and memorable.
+              {t(
+                "home.services.subtitle",
+                "Comprehensive travel services designed to make your journey smooth and memorable."
+              )}
             </p>
           </motion.div>
 
-          {/* service card */}
+          {/* Service Cards */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -413,38 +442,7 @@ export default function Home() {
             className="w-full"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                {
-                  to: "/services",
-                  title: "Flight Tickets",
-                  desc: "Domestic & international routes",
-                  icon: FaPlane,
-                },
-                {
-                  to: "/services",
-                  title: "Hotel Reservations",
-                  desc: "Worldwide accommodation bookings",
-                  icon: FaHotel,
-                },
-                {
-                  to: "/services",
-                  title: "Travel Services",
-                  desc: "Insurance, transfers & tours",
-                  icon: FaConciergeBell,
-                },
-                {
-                  to: "/services",
-                  title: "Umrah Packages",
-                  desc: "14, 21 & 28-day spiritual stays",
-                  icon: FaKaaba,
-                },
-                {
-                  to: "/services",
-                  title: "Student Visas",
-                  desc: "Turkey & China university placement",
-                  icon: FaGraduationCap,
-                },
-              ].map((item, idx) => {
+              {servicesList.map((item, idx) => {
                 const IconComponent = item.icon;
                 return (
                   <motion.div
@@ -521,19 +519,19 @@ export default function Home() {
             className="text-center mb-12"
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-brand-gradient/10 text-brand-red-orange text-sm font-semibold mb-4">
-              Testimonials
+              {t("home.testimonials.badge", "Testimonials")}
             </span>
             <h2
               className={`font-display text-3xl lg:text-4xl font-bold ${
                 theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
               }`}
             >
-              What Our Clients Say
+              {t("home.testimonials.title", "What Our Clients Say")}
             </h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
+            {testimonials.map((tItem, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -552,16 +550,16 @@ export default function Home() {
                     theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
                   }`}
                 >
-                  "{t.text}"
+                  "{tItem.text}"
                 </p>
                 <div className="flex gap-1 mb-3">
-                  {Array.from({ length: t.rating }).map((_, j) => (
+                  {Array.from({ length: tItem.rating }).map((_, j) => (
                     <FaStar key={j} className="text-brand-gold text-sm" />
                   ))}
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center text-white font-bold">
-                    {t.name.charAt(0)}
+                    {tItem.name.charAt(0)}
                   </div>
                   <div>
                     <div
@@ -569,14 +567,14 @@ export default function Home() {
                         theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
                       }`}
                     >
-                      {t.name}
+                      {tItem.name}
                     </div>
                     <div
                       className={`text-xs ${
                         theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
                       }`}
                     >
-                      {t.role}
+                      {tItem.role}
                     </div>
                   </div>
                 </div>
@@ -599,18 +597,20 @@ export default function Home() {
             <div className="absolute inset-0 bg-dark-glow opacity-50" />
             <div className="relative z-10">
               <h2 className="font-display text-2xl lg:text-4xl font-bold text-white mb-4">
-                Ready to Start Your Journey?
+                {t("home.cta.title", "Ready to Start Your Journey?")}
               </h2>
               <p className="text-white/90 text-base mb-8 max-w-2xl mx-auto">
-                Contact us today and let Excellent Travel Agency handle all your
-                travel needs.
+                {t(
+                  "home.cta.subtitle",
+                  "Contact us today and let Excellent Travel Agency handle all your travel needs."
+                )}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
                   href="tel:+93789785320"
                   className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-brand-red-orange font-semibold hover:scale-105 transition-transform"
                 >
-                  <FaPhone /> Call Us
+                  <FaPhone /> {t("home.cta.call_us", "Call Us")}
                 </a>
                 <a
                   href="https://wa.me/+93789785320"
@@ -618,13 +618,13 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 rounded-xl bg-green-500 text-white font-semibold hover:scale-105 transition-transform"
                 >
-                  <FaWhatsapp /> WhatsApp Us
+                  <FaWhatsapp /> {t("home.cta.whatsapp_us", "WhatsApp Us")}
                 </a>
                 <Link
                   to="/contact"
                   className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/30 text-white font-semibold hover:bg-white/20 transition-colors"
                 >
-                  Contact Form <FaArrowRight className="text-xs" />
+                  {t("home.cta.contact_form", "Contact Form")} <FaArrowRight className="text-xs rtl:rotate-180" />
                 </Link>
               </div>
             </div>
@@ -656,7 +656,7 @@ export default function Home() {
             >
               <button
                 onClick={() => setShowQuickInquiry(false)}
-                className={`absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                className={`absolute top-4 right-4 rtl:right-auto rtl:left-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
                   theme === "dark"
                     ? "hover:bg-surface-dark-hover"
                     : "hover:bg-gray-100"
@@ -685,14 +685,14 @@ export default function Home() {
                       theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
                     }`}
                   >
-                    Thank You!
+                    {t("home.quick_modal.success_title", "Thank You!")}
                   </h3>
                   <p
                     className={`text-sm ${
                       theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"
                     }`}
                   >
-                    We will contact you within 24 hours.
+                    {t("home.quick_modal.success_desc", "We will contact you within 24 hours.")}
                   </p>
                 </div>
               ) : (
@@ -702,12 +702,12 @@ export default function Home() {
                       theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"
                     }`}
                   >
-                    Quick Inquiry
+                    {t("home.quick_modal.title", "Quick Inquiry")}
                   </h3>
                   <form onSubmit={handleQuickSubmit} className="space-y-3">
                     <input
                       type="text"
-                      placeholder="Your Name"
+                      placeholder={t("home.quick_modal.name_placeholder", "Your Name")}
                       value={quickForm.name}
                       onChange={(e) =>
                         setQuickForm({ ...quickForm, name: e.target.value })
@@ -719,7 +719,7 @@ export default function Home() {
                     />
                     <input
                       type="tel"
-                      placeholder="Phone Number"
+                      placeholder={t("home.quick_modal.phone_placeholder", "Phone Number")}
                       value={quickForm.phone}
                       onChange={(e) =>
                         setQuickForm({ ...quickForm, phone: e.target.value })
@@ -738,10 +738,12 @@ export default function Home() {
                         theme === "dark" ? "input-field-dark" : "input-field-light"
                       }`}
                     >
-                      <option value="">Select a service...</option>
-                      {defaultServices.map((title, i) => (
-                        <option key={i} value={title}>
-                          {title}
+                      <option value="">
+                        {t("home.quick_modal.select_service", "Select a service...")}
+                      </option>
+                      {servicesList.map((srv, i) => (
+                        <option key={i} value={srv.title}>
+                          {srv.title}
                         </option>
                       ))}
                     </select>
@@ -761,11 +763,11 @@ export default function Home() {
                             }}
                             className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                           />
-                          Sending...
+                          {t("home.quick_modal.sending", "Sending...")}
                         </>
                       ) : (
                         <>
-                          <FaPaperPlane /> Send
+                          <FaPaperPlane className="rtl:rotate-180" /> {t("home.quick_modal.send_btn", "Send")}
                         </>
                       )}
                     </button>

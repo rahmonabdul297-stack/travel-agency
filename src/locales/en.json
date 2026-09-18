@@ -1,0 +1,355 @@
+{
+  "welcome": "Welcome to Excellent Travel Agency",
+  "hero_subtitle": "Your trusted partner for flights, hotels, Umrah packages, and student visas.",
+  "quick_inquiry": "Quick Inquiry",
+  "about_us": "About Us",
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "contact": "Contact",
+    "quick_inquiry": "Quick Inquiry",
+    "select_language": "Select Language"
+  },
+  "footer": {
+    "brand_description": "Professional travel and pilgrimage agency providing reliable, convenient, and high-quality travel services.",
+    "quick_links": "Quick Links",
+    "our_services": "Our Services",
+    "contact_us": "Contact Us",
+    "send_mail": "Send Mail",
+    "phone_support": "Phone Support",
+    "rights_reserved": "Excellent Travel Agency. All rights reserved.",
+    "links": {
+      "home": "Home",
+      "about": "About Us",
+      "flight_tickets": "Flight Tickets",
+      "hotel_reservations": "Hotel Reservations",
+      "travel_services": "Travel Services",
+      "umrah_packages": "Umrah Packages",
+      "student_visas": "Student Visas",
+      "contact": "Contact"
+    }
+  },
+  "lead_form": {
+    "full_name_label": "Full Name",
+    "full_name_placeholder": "Enter your full name",
+    "phone_label": "Phone / WhatsApp",
+    "phone_placeholder": "+93....",
+    "email_label": "Email",
+    "email_placeholder": "Enter your email",
+    "service_label": "Select Service",
+    "choose_service_placeholder": "Choose a service...",
+    "departure_label": "Departure",
+    "departure_placeholder": "e.g. From Kabul, Makkah",
+    "destination_label": "Destination",
+    "destination_placeholder": "e.g. To Beijing, Dubai",
+    "travel_date_label": "Travel Date",
+    "return_date_label": "Return Date",
+    "message_label": "Message",
+    "message_placeholder": "Tell us about your travel plans...",
+    "sending": "Sending...",
+    "submit_btn": "Submit Inquiry",
+    "required_error": "Please provide your name and phone number.",
+    "general_error": "Something went wrong while submitting. Please try again.",
+    "success_title": "Inquiry Submitted!",
+    "success_desc": "Thank you for reaching out to Excellent Travel Agency. Our team will review your message and get in touch shortly.",
+    "done_btn": "Done"
+  },
+  "home": {
+    "hero_badge": "Trusted by 10,000+ travelers worldwide",
+    "hero_title_1": "A Reliable Way Towards",
+    "hero_title_2": "a Brighter Future",
+    "hero_subtitle": "Excellent Travel Agency — Your trusted partner for flights, hotels, Umrah packages, and student visas.",
+    "quick_inquiry": "Quick Inquiry",
+    "learn_more": "Learn More",
+    "stats": {
+      "happy_travelers": "Happy Travelers",
+      "years_experience": "Years Experience",
+      "destinations": "Destinations",
+      "secure_booking": "Secure Booking"
+    },
+    "about": {
+      "badge": "About Us",
+      "title": "Your Trusted Travel Partner",
+      "p1": "Excellent Travel Agency is a professional travel and pilgrimage agency dedicated to providing reliable, convenient, and high-quality travel services. Our goal is to make travel planning easier, smoother, and more comfortable for our customers.",
+      "p2": "Our services include domestic and international flight tickets, hotel reservations, travel services, Umrah visa and packages, and student visa services.",
+      "feature_1": "Reliable & Professional Service",
+      "feature_2": "Competitive Pricing",
+      "feature_3": "24/7 Customer Support",
+      "feature_4": "Experienced Travel Experts",
+      "read_more": "Read More",
+      "support_24_7": "24/7 Support Available"
+    },
+    "services": {
+      "badge": "Our Services",
+      "title": "What We Offer",
+      "subtitle": "Comprehensive travel services designed to make your journey smooth and memorable.",
+      "flight_desc": "Domestic & international routes",
+      "hotel_desc": "Worldwide accommodation bookings",
+      "travel_desc": "Insurance, transfers & tours",
+      "umrah_desc": "14, 21 & 28-day spiritual stays",
+      "student_desc": "Turkey & China university placement"
+    },
+    "testimonials": {
+      "badge": "Testimonials",
+      "title": "What Our Clients Say",
+      "t1_text": "Excellent Travel Agency made our Umrah trip absolutely seamless. From visa to hotel near the Haram, everything was perfect.",
+      "t1_name": "Ahmed Hassan",
+      "t1_role": "Umrah Pilgrim",
+      "t2_text": "They helped me get my student visa for Turkey. The team was supportive at every step, from university selection to visa filing.",
+      "t2_name": "Fatima Noor",
+      "t2_role": "Student, Turkey",
+      "t3_text": "Best travel agency I have worked with. Their flight ticket prices are unbeatable and the service is always professional.",
+      "t3_name": "Bilal Khan",
+      "t3_role": "Business Traveler"
+    },
+    "cta": {
+      "title": "Ready to Start Your Journey?",
+      "subtitle": "Contact us today and let Excellent Travel Agency handle all your travel needs.",
+      "call_us": "Call Us",
+      "whatsapp_us": "WhatsApp Us",
+      "contact_form": "Contact Form"
+    },
+    "quick_modal": {
+      "title": "Quick Inquiry",
+      "name_placeholder": "Your Name",
+      "phone_placeholder": "Phone Number",
+      "select_service": "Select a service...",
+      "sending": "Sending...",
+      "send_btn": "Send",
+      "success_title": "Thank You!",
+      "success_desc": "We will contact you within 24 hours."
+    }
+  },
+  "about_page": {
+    "badge": "About Us",
+    "hero_title_1": "Excellence in",
+    "hero_title_2": "Travel Services",
+    "hero_subtitle": "Excellent Travel Agency is a professional travel and pilgrimage agency dedicated to providing reliable, convenient, and high-quality travel services.",
+    "capabilities": {
+      "air_ticketing_title": "Global Air Ticketing",
+      "air_ticketing_desc": "Direct access to major worldwide and regional flight routes with flexible fares.",
+      "visa_title": "Visa Consultancy",
+      "visa_desc": "Specialized visa guidance for international educational pathways and pilgrimages.",
+      "hotel_title": "Direct Hotel Bookings",
+      "hotel_desc": "Partnered accommodations ranging from luxury suites to close-to-Haram stays."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "desc": "To make travel planning easier, smoother, and more comfortable for our customers by providing reliable, convenient, and high-quality travel services tailored to their needs."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "desc": "To be the most trusted travel agency, recognized for excellence in pilgrimage services, student visa assistance, and global travel solutions — a reliable way towards a brighter future."
+    },
+    "values": {
+      "title": "Our Core Values",
+      "subtitle": "The principles that guide everything we do.",
+      "reliability_title": "Reliability",
+      "reliability_desc": "We deliver on our promises, ensuring every trip is handled with the utmost care and professionalism.",
+      "trust_title": "Trust",
+      "trust_desc": "Building long-term relationships with our clients through honest, transparent service.",
+      "quality_title": "Quality",
+      "quality_desc": "We partner with the best airlines, hotels, and service providers to ensure premium experiences.",
+      "support_title": "Support",
+      "support_desc": "Our team is available 24/7 to assist you before, during, and after your journey."
+    },
+    "growth": {
+      "title": "Our Growth",
+      "m1_title": "Founded",
+      "m1_desc": "Excellent Travel Agency was established with a vision to simplify travel.",
+      "m2_title": "Expanded Services",
+      "m2_desc": "Added Umrah packages and student visa services to our portfolio.",
+      "m3_title": "10,000+ Travelers",
+      "m3_desc": "Surpassed 10,000 satisfied travelers across all our services.",
+      "m4_title": "Global Reach",
+      "m4_desc": "Now serving 50+ destinations worldwide with a dedicated team."
+    },
+    "stats": {
+      "happy_travelers": "Happy Travelers",
+      "destinations": "Destinations",
+      "travel_assistance": "Travel Assistance",
+      "secure_booking": "Secure Booking"
+    }
+  },"contact_page": {
+    "badge": "Contact Us",
+    "hero_title_1": "Get in",
+    "hero_title_2": "Touch",
+    "hero_subtitle": "We are here to help you plan your next journey. Reach out through any of the channels below.",
+    "cards": {
+      "phone": "Phone Support",
+      "whatsapp": "WhatsApp",
+      "email": "Email Us",
+      "office": "Visit Office",
+      "location": "Kabul, Afghanistan"
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "subtitle": "Fill out the form and we will get back to you within 24 hours."
+    },
+    "hours": {
+      "title": "Business Hours",
+      "always_open": "Always Open",
+      "twenty_four_seven": "24/7"
+    },
+    "socials": {
+      "title": "Follow Us"
+    },
+    "office": {
+      "title": "Visit Our Office",
+      "address": "Dawoodzai Commercial Center, Kabul, Afghanistan"
+    }
+  },
+  "services_page": {
+    "badge": "What We Offer",
+    "hero_title": "Our Professional Travel Services",
+    "hero_subtitle": "Reliable, tailored, and comprehensive solutions for your travel, stay, and spiritual needs.",
+    "featured_service": "Featured Service",
+    "whatsapp_label": "Whatsapp:",
+    "accordion": {
+      "overview": "Overview",
+      "key_features": "Key Features & Benefits",
+      "how_to_apply": "How to Apply",
+      "apply_steps": "1. Select your desired service or package\n2. Complete the quick inquiry form below\n3. Our travel specialist will reach out within 24 hours\n4. Finalize documentation and confirm booking"
+    },
+    "packages": {
+      "title": "Available Packages for",
+      "subtitle": "Select a package suited to your itinerary, group size, or travel requirements."
+    },
+    "inquire": {
+      "badge": "Inquire & Book",
+      "title": "Request",
+      "services_suffix": "Services",
+      "subtitle": "Fill out the quick inquiry form below and our dedicated travel experts will get in touch with you."
+    },
+    "custom_assistance": {
+      "title": "Need Custom Assistance?",
+      "subtitle": "Have specific travel routes, visa inquiries, or corporate group requests? Get in touch directly with our support team.",
+      "btn": "Contact Support"
+    },
+    "data": {
+      "flight_tickets": {
+        "title": "Domestic & International Flight Tickets",
+        "short_desc": "Fast, hassle-free booking for worldwide and local flights with optimal schedules and competitive fares.",
+        "long_desc": "We provide end-to-end flight ticketing services covering both domestic routes and major international destinations. Our specialists assist with flight search, real-time fare comparison, seat selection, extra baggage requests, and flexible rebooking options.",
+        "f1": "Domestic & Global Route Coverage",
+        "f2": "Real-Time Flight Schedules & Availability",
+        "f3": "Flexible Date Changes & Cancellations",
+        "f4": "Special Corporate & Group Discounts",
+        "p1_title": "Domestic Flight Ticketing",
+        "p1_duration": "One-Way / Round-Trip",
+        "p1_price": "Best Market Rates",
+        "p1_desc": "Instant ticketing across all local airlines with preferred seat selection and luggage add-ons.",
+        "p1_it1": "Route & Schedule Search",
+        "p1_it2": "Seat & Baggage Preference",
+        "p1_it3": "Instant E-Ticket Issuance",
+        "p2_title": "International Flight Ticketing",
+        "p2_duration": "One-Way / Multi-City",
+        "p2_price": "Competitive Global Fares",
+        "p2_desc": "Comprehensive international routing, transit advisory, and priority cabin bookings across global carriers.",
+        "p2_it1": "Optimal Route Selection",
+        "p2_it2": "Visa & Transit Verification",
+        "p2_it3": "24/7 Travel Assistance"
+      },
+      "hotel_reservations": {
+        "title": "Hotel Reservations",
+        "short_desc": "Verified hotel bookings and accommodation arrangements in prime destinations worldwide.",
+        "long_desc": "Secure quality stays tailored to your budget and travel purpose. From luxury city-center hotels and boutique resorts to budget-friendly apartments, we handle reservations in major tourist and business hubs with transparent booking policies.",
+        "f1": "Worldwide Partner Hotel Network",
+        "f2": "Prime Destination Access",
+        "f3": "Flexible Check-in & Cancellation Options",
+        "f4": "Group Booking & Special Requests",
+        "p1_title": "Standard City Hotel Reservation",
+        "p1_duration": "Per Night / Custom Stay",
+        "p1_price": "Budget & Mid-Range Rates",
+        "p1_desc": "Centrally located 3-star and 4-star property bookings ideal for city exploration and short stays.",
+        "p1_it1": "Destination & Location Selection",
+        "p1_it2": "Room Type Confirmation",
+        "p1_it3": "Voucher & Check-In Guarantee",
+        "p2_title": "Luxury & Resort Accommodations",
+        "p2_duration": "Extended Stays",
+        "p2_price": "Premium Rates",
+        "p2_desc": "Exclusive 5-star hotel and resort bookings featuring complimentary breakfast, airport shuttles, and VIP amenities.",
+        "p2_it1": "VIP Property Match",
+        "p2_it2": "Exclusive Perks Inclusion",
+        "p2_it3": "Dedicated Concierge Booking"
+      },
+      "travel_services": {
+        "title": "Other Travel Services",
+        "short_desc": "Comprehensive travel management including insurance, airport transfers, and customized itineraries.",
+        "long_desc": "Our agency provides complete support services to ensure every aspect of your journey is seamless. We handle travel insurance issuance, private ground transfers, guided city tours, and administrative visa processing support.",
+        "f1": "Comprehensive Travel & Health Insurance",
+        "f2": "Private Airport Pickups & Transfers",
+        "f3": "Custom Itinerary & Tour Planning",
+        "f4": "Visa Administrative Assistance",
+        "p1_title": "Travel Insurance & Safety Pack",
+        "p1_duration": "Duration of Trip",
+        "p1_price": "Custom Coverage Quote",
+        "p1_desc": "Medical coverage, lost baggage protection, and flight delay compensation policies.",
+        "p1_it1": "Policy Needs Audit",
+        "p1_it2": "Instant Coverage Certificate",
+        "p1_it3": "24/7 Claims Assistance",
+        "p2_title": "Airport Transfer & Ground Transport",
+        "p2_duration": "Single / Round Transfer",
+        "p2_price": "Fixed Airport Rates",
+        "p2_desc": "Reliable private driver pickups and drop-offs between airports, hotels, and event venues.",
+        "p2_it1": "Flight Schedule Sync",
+        "p2_it2": "Private Driver Pickup",
+        "p2_it3": "Direct Destination Drop-off"
+      },
+      "umrah_packages": {
+        "title": "Umrah Visa & Packages",
+        "short_desc": "Spiritual Umrah journeys with complete visa support, close Haram accommodations, and guided ziyarat.",
+        "long_desc": "Experience a fulfilling pilgrimage to the Holy Cities of Makkah and Madinah. We provide complete Umrah visa processing, flights, comfortable hotels walking distance from Al-Masjid an-Nabawi and Masjid al-Haram, conditioned transport, and historical ziyarat tours.",
+        "f1": "Official Saudi Umrah Visa Processing",
+        "f2": "Hotels within Walking Distance to Haram",
+        "f3": "14-Day, 21-Day, and 28-Day Package Options",
+        "f4": "Guided Religious Ziyarat in Makkah & Madinah",
+        "p1_title": "14-Day Umrah Package",
+        "p1_duration": "14 Days (7 Makkah / 7 Madinah)",
+        "p1_price": "From $1,350",
+        "p1_desc": "Complete 2-week spiritual package including visa issuance, hotel bookings close to the Holy Mosques, and bus transfers.",
+        "p1_it1": "Umrah Visa Approval",
+        "p1_it2": "Makkah Hotel & Umrah Rituals",
+        "p1_it3": "Madinah Stay & Ziyarat Tours",
+        "p2_title": "21-Day Umrah Package",
+        "p2_duration": "21 Days (11 Makkah / 10 Madinah)",
+        "p2_price": "From $1,850",
+        "p2_desc": "Balanced 3-week itinerary allowing extended worship time in both Holy Cities with guided historical site visits.",
+        "p2_it1": "Visa & Ground Logistics",
+        "p2_it2": "Extended Makkah Stay",
+        "p2_it3": "Madinah Prophet Mosque Stay",
+        "p3_title": "28-Day Umrah Package",
+        "p3_duration": "28 Days (14 Makkah / 14 Madinah)",
+        "p3_price": "From $2,400",
+        "p3_desc": "Comprehensive month-long pilgrimage package offering full accommodation, flight ticketing, and dedicated ground support.",
+        "p3_it1": "Full Visa Clearance",
+        "p3_it2": "2 Weeks Makkah Accommodations",
+        "p3_it3": "2 Weeks Madinah Accommodations"
+      },
+      "student_visas": {
+        "title": "Student Visas",
+        "short_desc": "Complete admission guidance, visa processing, and university matching for Turkey and China.",
+        "long_desc": "Achieve your international study goals with dedicated educational consultancy. We specialize in Turkey and China student visa processing, university admission applications, scholarship guidance, and document verification for recognized higher institutions.",
+        "f1": "Turkey & China University Placement",
+        "f2": "Document Translation & SOP Review",
+        "f3": "Embassy Visa File Compilation",
+        "f4": "Pre-Departure & Campus Registration Guidance",
+        "p1_title": "Turkey Student Visa Package",
+        "p1_duration": "Full Admission Cycle",
+        "p1_price": "Consultation & Processing Fee",
+        "p1_desc": "End-to-end guidance for Turkish university admissions, YÖK equivalency documentation, and embassy visa appointments.",
+        "p1_it1": "Turkey University Selection",
+        "p1_it2": "Acceptance Letter Retrieval",
+        "p1_it3": "Embassy Visa Submission",
+        "p2_title": "China Student Visa Package (X1 / X2)",
+        "p2_duration": "Full Admission Cycle",
+        "p2_price": "Consultation & Processing Fee",
+        "p2_desc": "Complete processing for Chinese universities, JW201/JW202 form clearance, and student visa application.",
+        "p2_it1": "JW201/JW202 Application",
+        "p2_it2": "China Student Visa Filing",
+        "p2_it3": "Pre-Flight & Arrival Support"
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   FaPhone, FaWhatsapp, FaEnvelope, FaMapMarkerAlt,
-  FaFacebookF, FaInstagram, FaTwitter, FaYoutube,
-  FaClock,
+  FaFacebookF, FaInstagram, FaClock,
 } from '@/lib/icons';
 import { useTheme } from '@/context/ThemeContext';
 import LeadForm from '@/components/LeadForm';
@@ -11,33 +11,34 @@ import { FaX } from 'react-icons/fa6';
 
 export default function Contact() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const contactCards = [
     {
       icon: FaPhone,
-      label: 'Phone Support',
-      value: '+93 789785320',
+      label: t('contact_page.cards.phone', 'Phone Support'),
+      value: '+93789785320',
       href: 'tel:+93789785320',
       color: 'bg-blue-500',
     },
     {
       icon: FaWhatsapp,
-      label: 'WhatsApp',
-      value: '+93 789785320',
+      label: t('contact_page.cards.whatsapp', 'WhatsApp'),
+      value: '+93789785320',
       href: 'https://wa.me/93789785320',
       color: 'bg-green-500',
     },
     {
       icon: FaEnvelope,
-      label: 'Email Us',
+      label: t('contact_page.cards.email', 'Email Us'),
       value: 'excellent.kbl.travel@gmail.com',
       href: 'mailto:excellent.kbl.travel@gmail.com',
       color: 'bg-brand-red-orange',
     },
     {
       icon: FaMapMarkerAlt,
-      label: 'Visit Office',
-      value: 'Kabul, Afghanistan',
+      label: t('contact_page.cards.office', 'Visit Office'),
+      value: t('contact_page.cards.location', 'Kabul, Afghanistan'),
       href: '#office-map',
       color: 'bg-brand-amber',
     },
@@ -61,7 +62,7 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-block px-4 py-1.5 rounded-full bg-brand-gradient/10 text-brand-red-orange text-sm font-semibold mb-4"
           >
-            Contact Us
+            {t('contact_page.badge', 'Contact Us')}
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -69,8 +70,12 @@ export default function Contact() {
             transition={{ delay: 0.1 }}
             className="font-display text-4xl lg:text-5xl font-bold mb-6"
           >
-            <span className={theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}>Get in </span>
-            <span className="brand-text-gradient">Touch</span>
+            <span className={theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}>
+              {t('contact_page.hero_title_1', 'Get in')}{' '}
+            </span>
+            <span className="brand-text-gradient">
+              {t('contact_page.hero_title_2', 'Touch')}
+            </span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -78,7 +83,7 @@ export default function Contact() {
             transition={{ delay: 0.2 }}
             className={`text-lg ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}
           >
-            We are here to help you plan your next journey. Reach out through any of the channels below.
+            {t('contact_page.hero_subtitle', 'We are here to help you plan your next journey. Reach out through any of the channels below.')}
           </motion.p>
         </div>
       </section>
@@ -135,10 +140,10 @@ export default function Contact() {
               }`}
             >
               <h2 className={`font-display text-2xl font-bold mb-2 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                Send Us a Message
+                {t('contact_page.form.title', 'Send Us a Message')}
               </h2>
               <p className={`text-sm mb-6 ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-                Fill out the form and we will get back to you within 24 hours.
+                {t('contact_page.form.subtitle', 'Fill out the form and we will get back to you within 24 hours.')}
               </p>
               <LeadForm />
             </motion.div>
@@ -155,17 +160,13 @@ export default function Contact() {
                 <div className="flex items-center gap-3 mb-4">
                   <FaClock className="text-brand-red-orange text-xl" />
                   <h3 className={`font-display font-bold ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                    Business Hours
+                    {t('contact_page.hours.title', 'Business Hours')}
                   </h3>
                 </div>
                 <div className={`space-y-2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
                   <div className="flex justify-between">
-                    <span>Monday - Saturday</span>
-                    <span className="font-medium">8:30 AM - 5:30 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sunday</span>
-                    <span className="font-medium">Closed</span>
+                    <span>{t('contact_page.hours.always_open', 'Always Open')}</span>
+                    <span className="font-medium">{t('contact_page.hours.twenty_four_seven', '24/7')}</span>
                   </div>
                 </div>
               </div>
@@ -173,7 +174,7 @@ export default function Contact() {
               {/* Follow Us */}
               <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-surface-dark-card border border-border-dark' : 'bg-white border border-border-light shadow-card-light'}`}>
                 <h3 className={`font-display font-bold mb-4 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                  Follow Us
+                  {t('contact_page.socials.title', 'Follow Us')}
                 </h3>
                 <div className="flex gap-3">
                   {socials.map((social, i) => (
@@ -200,7 +201,7 @@ export default function Contact() {
                 <div className="flex items-center gap-3 mb-4">
                   <FaMapMarkerAlt className="text-brand-red-orange text-xl" />
                   <h3 className={`font-display font-bold ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                    Visit Our Office
+                    {t('contact_page.office.title', 'Visit Our Office')}
                   </h3>
                 </div>
                 <div className="relative h-48 rounded-xl overflow-hidden bg-brand-gradient/10">
@@ -208,7 +209,7 @@ export default function Contact() {
                     <div className="text-center">
                       <FaMapMarkerAlt className="text-4xl text-brand-red-orange mb-2 mx-auto" />
                       <p className={`text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-                        Dawoodzai Commercial Center, Kabul, Afghanistan
+                        {t('contact_page.office.address', 'Dawoodzai Commercial Center, Kabul, Afghanistan')}
                       </p>
                     </div>
                   </div>

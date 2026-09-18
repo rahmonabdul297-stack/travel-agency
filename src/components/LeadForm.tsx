@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
   FaUser, FaPhone, FaEnvelope, FaPaperPlane, FaCheckCircle,
-  FaFileUpload, FaTimes, FaArrowRight,
+  FaTimes, FaArrowRight,
 } from '@/lib/icons';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -21,6 +22,7 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 
 export default function LeadForm({ services = [], defaultService = '', compact = false }: LeadFormProps) {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -29,36 +31,34 @@ export default function LeadForm({ services = [], defaultService = '', compact =
     phone: '',
     email: '',
     service: defaultService,
+    departure: '',
     destination: '',
     travel_date: '',
+    return_date: '',
     message: '',
   });
 
   const inputCls = `input-field ${theme === 'dark' ? 'input-field-dark' : 'input-field-light'}`;
 
-  // Default services list if none passed via props
-  const availableServices = services.length > 0 ? services : [
-    { title: 'Flight Tickets' },
-    { title: 'Hotel Reservations' },
-    { title: 'Travel Services' },
-    { title: 'Umrah Packages' },
-    { title: 'Student Visas' },
+  // Default services list mapped to translation keys
+  const defaultServices = [
+    { title: t('footer.links.flight_tickets', 'Flight Tickets') },
+    { title: t('footer.links.hotel_reservations', 'Hotel Reservations') },
+    { title: t('footer.links.travel_services', 'Travel Services') },
+    { title: t('footer.links.umrah_packages', 'Umrah Packages') },
+    { title: t('footer.links.student_visas', 'Student Visas') },
   ];
+
+  const availableServices = services.length > 0 ? services : defaultServices;
 
   const handleChange = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-    }
-  };
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.full_name || !form.phone) {
-      setErrorMsg('Please provide your name and phone number.');
+      setErrorMsg(t('lead_form.required_error', 'Please provide your name and phone number.'));
       setStatus('error');
       return;
     }
@@ -69,22 +69,21 @@ export default function LeadForm({ services = [], defaultService = '', compact =
     try {
       const formData = new FormData();
       
-      // Use Web3Forms Key (Replace with your key or environment variable VITE_WEB3FORMS_ACCESS_KEY)
       const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY_HERE';
       formData.append('access_key', accessKey);
       formData.append('subject', `New Lead: ${form.service || 'Travel'} Inquiry from ${form.full_name}`);
       formData.append('from_name', 'Excellent Travel Agency Website');
       
-      // Form fields
       formData.append('Full Name', form.full_name);
       formData.append('Phone / WhatsApp', form.phone);
       formData.append('Email', form.email || 'Not provided');
       formData.append('Service Interested In', form.service || 'General Inquiry');
+      formData.append('Departure', form.departure || 'Not specified');
       formData.append('Destination', form.destination || 'Not specified');
       formData.append('Travel Date', form.travel_date || 'Not specified');
+      formData.append('Return Date', form.return_date || 'Not specified');
       formData.append('Message', form.message || 'No additional message');
 
-      // Attach document if uploaded
       if (selectedFile) {
         formData.append('attachment', selectedFile);
       }
@@ -98,15 +97,15 @@ export default function LeadForm({ services = [], defaultService = '', compact =
 
       if (data.success) {
         setStatus('success');
-        setForm({ full_name: '', phone: '', email: '', service: defaultService, destination: '', travel_date: '', message: '' });
+        setForm({ full_name: '', phone: '', email: '', service: defaultService, destination: '', travel_date: '', message: '', departure: '', return_date: '' });
         setSelectedFile(null);
       } else {
         setStatus('error');
-        setErrorMsg(data.message || 'Something went wrong while submitting. Please try again.');
+        setErrorMsg(data.message || t('lead_form.general_error', 'Something went wrong while submitting. Please try again.'));
       }
     } catch (err) {
       setStatus('error');
-      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      setErrorMsg(err instanceof Error ? err.message : t('lead_form.general_error', 'Something went wrong. Please try again.'));
     }
   };
 
@@ -114,88 +113,108 @@ export default function LeadForm({ services = [], defaultService = '', compact =
     <div className="relative">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className={compact ? 'grid grid-cols-1 gap-4' : 'grid grid-cols-1 sm:grid-cols-2 gap-4'}>
+          {/* Full Name */}
           <div>
             <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-              Full Name *
+              {t('lead_form.full_name_label', 'Full Name')} *
             </label>
             <div className="relative">
-              <FaUser className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
+              <FaUser className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm rtl:left-auto rtl:right-3 ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
               <input
                 type="text"
                 required
                 value={form.full_name}
                 onChange={(e) => handleChange('full_name', e.target.value)}
-                placeholder="Enter your full name"
-                className={`${inputCls} pl-10`}
+                placeholder={t('lead_form.full_name_placeholder', 'Enter your full name')}
+                className={`${inputCls} pl-10 rtl:pl-4 rtl:pr-10`}
               />
             </div>
           </div>
 
+          {/* Phone */}
           <div>
             <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-              Phone / WhatsApp *
+              {t('lead_form.phone_label', 'Phone / WhatsApp')} *
             </label>
             <div className="relative">
-              <FaPhone className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
+              <FaPhone className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm rtl:left-auto rtl:right-3 ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
               <input
                 type="tel"
                 required
                 value={form.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
-                placeholder="+92...."
-                className={`${inputCls} pl-10`}
+                placeholder={t('lead_form.phone_placeholder', '+93....')}
+                className={`${inputCls} pl-10 rtl:pl-4 rtl:pr-10`}
               />
             </div>
           </div>
 
+          {/* Email */}
           <div>
             <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-              Email
+              {t('lead_form.email_label', 'Email')}
             </label>
             <div className="relative">
-              <FaEnvelope className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
+              <FaEnvelope className={`absolute left-3 top-1/2 -translate-y-1/2 text-sm rtl:left-auto rtl:right-3 ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
               <input
                 type="email"
                 value={form.email}
                 onChange={(e) => handleChange('email', e.target.value)}
-                placeholder="Enter your email"
-                className={`${inputCls} pl-10`}
+                placeholder={t('lead_form.email_placeholder', 'Enter your email')}
+                className={`${inputCls} pl-10 rtl:pl-4 rtl:pr-10`}
               />
             </div>
           </div>
 
+          {/* Select Service */}
           <div>
             <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-              Select Service
+              {t('lead_form.service_label', 'Select Service')}
             </label>
             <select
               value={form.service}
               onChange={(e) => handleChange('service', e.target.value)}
-              className={`${inputCls} pr-10`}
+              className={`${inputCls} pr-10 rtl:pr-4 rtl:pl-10`}
             >
-              <option value="">Choose a service...</option>
+              <option value="">{t('lead_form.choose_service_placeholder', 'Choose a service...')}</option>
               {availableServices.map((s, idx) => (
                 <option key={s.id || idx} value={s.title}>{s.title}</option>
               ))}
             </select>
           </div>
 
+          {/* Departure */}
           <div>
             <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-              Destination
+              {t('lead_form.departure_label', 'Departure')}
+            </label>
+            <input
+              type="text"
+              value={form.departure}
+              onChange={(e) => handleChange('departure', e.target.value)}
+              placeholder={t('lead_form.departure_placeholder', 'e.g. From Kabul, Makkah')}
+              className={inputCls}
+            />
+          </div>
+
+          {/* Destination */}
+          <div>
+            <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
+              {t('lead_form.destination_label', 'Destination')}
             </label>
             <input
               type="text"
               value={form.destination}
               onChange={(e) => handleChange('destination', e.target.value)}
-              placeholder="e.g. Makkah, Istanbul, Beijing"
+              placeholder={t('lead_form.destination_placeholder', 'e.g. To Beijing, Dubai')}
               className={inputCls}
             />
           </div>
 
+          {/* Travel Date */}
           <div>
             <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-              Travel Date
+              {t('lead_form.travel_date_label', 'Travel Date')}
             </label>
             <input
               type="date"
@@ -204,42 +223,36 @@ export default function LeadForm({ services = [], defaultService = '', compact =
               className={inputCls}
             />
           </div>
+
+          {/* Return Date */}
+          <div>
+            <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
+              {t('lead_form.return_date_label', 'Return Date')}
+            </label>
+            <input
+              type="date"
+              value={form.return_date}
+              onChange={(e) => handleChange('return_date', e.target.value)}
+              className={inputCls}
+            />
+          </div>
         </div>
 
+        {/* Message */}
         <div>
           <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-            Message
+            {t('lead_form.message_label', 'Message')}
           </label>
           <textarea
             value={form.message}
             onChange={(e) => handleChange('message', e.target.value)}
             rows={compact ? 3 : 4}
-            placeholder="Tell us about your travel plans..."
+            placeholder={t('lead_form.message_placeholder', 'Tell us about your travel plans...')}
             className={`${inputCls} resize-none`}
           />
         </div>
 
-        {/* Functional Document Upload */}
-        {/* <div>
-          <label className={`block text-sm font-medium mb-1.5 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-            Document Upload (Optional)
-          </label>
-          <label className={`border-2 border-dashed rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-colors ${
-            theme === 'dark' ? 'border-border-dark hover:border-brand-red-orange' : 'border-border-light hover:border-brand-red-orange'
-          }`}>
-            <FaFileUpload className={`text-xl ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`} />
-            <span className={`text-sm truncate ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-              {selectedFile ? `Selected: ${selectedFile.name}` : 'Click to upload passport, documents, etc.'}
-            </span>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              className="hidden"
-              accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"
-            />
-          </label>
-        </div> */}
-
+        {/* Submit Button */}
         <motion.button
           type="submit"
           disabled={status === 'submitting'}
@@ -254,11 +267,11 @@ export default function LeadForm({ services = [], defaultService = '', compact =
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                 className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
               />
-              Sending...
+              {t('lead_form.sending', 'Sending...')}
             </>
           ) : (
             <>
-              <FaPaperPlane /> Submit Inquiry
+              <FaPaperPlane className="rtl:rotate-180" /> {t('lead_form.submit_btn', 'Submit Inquiry')}
             </>
           )}
         </motion.button>
@@ -274,7 +287,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
         )}
       </form>
 
-      {/* Success modal */}
+      {/* Success Modal */}
       <AnimatePresence>
         {status === 'success' && (
           <motion.div
@@ -296,7 +309,7 @@ export default function LeadForm({ services = [], defaultService = '', compact =
             >
               <button
                 onClick={() => setStatus('idle')}
-                className={`absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                className={`absolute top-4 right-4 rtl:right-auto rtl:left-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
                   theme === 'dark' ? 'hover:bg-surface-dark-hover' : 'hover:bg-gray-100'
                 }`}
               >
@@ -313,17 +326,17 @@ export default function LeadForm({ services = [], defaultService = '', compact =
               </motion.div>
 
               <h3 className={`font-display text-xl font-bold mb-2 ${theme === 'dark' ? 'text-ink-dark-primary' : 'text-ink-light-primary'}`}>
-                Inquiry Submitted!
+                {t('lead_form.success_title', 'Inquiry Submitted!')}
               </h3>
               <p className={`text-sm mb-6 ${theme === 'dark' ? 'text-ink-dark-secondary' : 'text-ink-light-secondary'}`}>
-                Thank you for reaching out to Excellent Travel Agency. Our team will review your message and get in touch shortly.
+                {t('lead_form.success_desc', 'Thank you for reaching out to Excellent Travel Agency. Our team will review your message and get in touch shortly.')}
               </p>
 
               <button
                 onClick={() => setStatus('idle')}
                 className="btn-brand inline-flex items-center gap-2"
               >
-                Done <FaArrowRight className="text-xs" />
+                {t('lead_form.done_btn', 'Done')} <FaArrowRight className="text-xs rtl:rotate-180" />
               </button>
             </motion.div>
           </motion.div>

@@ -1,10 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+/* Premium Fonts: Vazirmatn (Modern Persian/Dari/Pashto UI) + Cairo (Headings) + Tajawal (Buttons/Badges) */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@500;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 @layer base {
   html {
@@ -12,7 +14,9 @@
   }
   body {
     @apply font-sans antialiased;
-    transition: background-color 0.4s ease, color 0.4s ease;
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
   }
   .light body {
     @apply bg-surface-light text-ink-light-primary;
@@ -72,4 +76,91 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+[dir="rtl"],
+[lang="prs"],
+[lang="pus"] {
+  font-family:
+    "Vazirmatn", "Noto Sans Arabic", system-ui, sans-serif !important;
+  letter-spacing: 0 !important; /* Arabic script looks broken with wide letter-spacing */
+}
+
+/* Adjust line-height for better Arabic script legibility */
+[dir="rtl"] p,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] button {
+  line-height: 1.7;
+}
+/* Apply Alexandria as default for all RTL elements */
+[dir="rtl"],
+[lang="prs"],
+[lang="pus"] {
+  font-family: 'Alexandria', sans-serif !important;
+  letter-spacing: normal !important; /* Crucial: stops Arabic letter separation */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use Cairo for bold, luxury travel aesthetics */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] .font-display {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 700;
+  line-height: 1.4 !important;
+}
+
+/* Relaxed line height for Arabic/Persian/Pashto readability */
+[dir="rtl"] p,
+[dir="rtl"] span,
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] select,
+[dir="rtl"] textarea {
+  line-height: 1.8 !important;
+}
+/* Custom smooth text rendering for RTL */
+[dir="rtl"],
+[lang="prs"],
+[lang="pus"] {
+  font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  letter-spacing: 0 !important; /* Prevents gaps between connected letters */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings: Bold, premium geometric Cairo font */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] .font-display {
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 800;
+  line-height: 1.35 !important;
+}
+
+/* Buttons, Navlinks, and Badges: Crisp, compact Tajawal font */
+[dir="rtl"] button,
+[dir="rtl"] a.btn-brand,
+[dir="rtl"] .nav-link,
+[dir="rtl"] select,
+[dir="rtl"] option {
+  font-family: 'Tajawal', sans-serif !important;
+  font-weight: 700;
+}
+
+/* Paragraphs & Form Inputs: Clean Vazirmatn with comfortable line height */
+[dir="rtl"] p,
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  line-height: 1.85 !important;
+  font-weight: 400;
 }

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { FaArrowRight } from "@/lib/icons";
 import { useTheme } from "@/context/ThemeContext";
 import { Logo } from "./Logo";
@@ -14,20 +15,33 @@ import { FaX } from "react-icons/fa6";
 
 export default function Footer() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const siteLinks = [
-    { to: "/", label: "Home" },
-    { to: "/about", label: "About Us" },
-    { to: "/services/flight-tickets", label: "Flight Tickets" },
-    { to: "/services/hotel-reservations", label: "Hotel Reservations" },
-    { to: "/services/umrah-packages", label: "Umrah Packages" },
-    { to: "/services/student-visas", label: "Student Visas" },
-    { to: "/contact", label: "Contact" },
+    { to: "/", label: t("footer.links.home", "Home") },
+    { to: "/about", label: t("footer.links.about", "About Us") },
+    { to: "/services/flight-tickets", label: t("footer.links.flight_tickets", "Flight Tickets") },
+    { to: "/services/hotel-reservations", label: t("footer.links.hotel_reservations", "Hotel Reservations") },
+    { to: "/services/umrah-packages", label: t("footer.links.umrah_packages", "Umrah Packages") },
+    { to: "/services/student-visas", label: t("footer.links.student_visas", "Student Visas") },
+    { to: "/contact", label: t("footer.links.contact", "Contact") },
+  ];
+
+  const serviceLinks = [
+    { to: "/services/flight-tickets", label: t("footer.links.flight_tickets", "Flight Tickets") },
+    { to: "/services", label: t("footer.links.hotel_reservations", "Hotel Reservations") },
+    { to: "/services/travel-services", label: t("footer.links.travel_services", "Travel Services") },
+    { to: "/services/umrah-packages", label: t("footer.links.umrah_packages", "Umrah Packages") },
+    { to: "/services/student-visas", label: t("footer.links.student_visas", "Student Visas") },
   ];
 
   return (
     <footer
-      className={`relative overflow-hidden ${theme === "dark" ? "bg-surface-dark-card border-t border-border-dark" : "bg-white border-t border-border-light"}`}
+      className={`relative overflow-hidden ${
+        theme === "dark"
+          ? "bg-surface-dark-card border-t border-border-dark"
+          : "bg-white border-t border-border-light"
+      }`}
     >
       <div className="absolute top-0 left-0 right-0 h-1 bg-brand-gradient" />
 
@@ -42,13 +56,23 @@ export default function Footer() {
           >
             <Logo />
             <p
-              className={`text-sm leading-relaxed ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+              className={`text-sm leading-relaxed ${
+                theme === "dark"
+                  ? "text-ink-dark-secondary"
+                  : "text-ink-light-secondary"
+              }`}
             >
-              Professional travel and pilgrimage agency providing reliable,
-              convenient, and high-quality travel services.
+              {t(
+                "footer.brand_description",
+                "Professional travel and pilgrimage agency providing reliable, convenient, and high-quality travel services."
+              )}
             </p>
             <div
-              className={`py-8 ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"} flex gap-2`}
+              className={`py-8 ${
+                theme === "dark"
+                  ? "text-ink-dark-secondary"
+                  : "text-ink-light-secondary"
+              } flex gap-2`}
             >
               <Link
                 to="https://web.facebook.com/profile.php?id=100092668025297"
@@ -57,19 +81,17 @@ export default function Footer() {
                 <FaFacebook />
               </Link>
               <Link to="/">
-                {" "}
                 <FaInstagram />
               </Link>
               <Link to="/">
-                {" "}
                 <FaX />
               </Link>
               <Link to="/">
-                {" "}
                 <FaTiktok />
               </Link>
             </div>
           </motion.div>
+
           {/* Quick links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -78,9 +100,13 @@ export default function Footer() {
             transition={{ delay: 0.1 }}
           >
             <h4
-              className={`font-display font-semibold mb-4 ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+              className={`font-display font-semibold mb-4 ${
+                theme === "dark"
+                  ? "text-ink-dark-primary"
+                  : "text-ink-light-primary"
+              }`}
             >
-              Quick Links
+              {t("footer.quick_links", "Quick Links")}
             </h4>
             <ul className="space-y-2">
               {siteLinks.map((link, i) => (
@@ -93,77 +119,48 @@ export default function Footer() {
                         : "text-ink-light-secondary hover:text-brand-red-orange"
                     }`}
                   >
-                    <FaArrowRight className="text-[10px] opacity-0 group-hover:opacity-100 group-hover:mr-1 transition-all" />
+                    <FaArrowRight className="text-[10px] opacity-0 group-hover:opacity-100 group-hover:mr-1 transition-all rtl:rotate-180" />
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </motion.div>
-          {/* Services */} 
+
+          {/* Services */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-                       {" "}
             <h4
-              className={`font-display font-semibold mb-4 ${theme === "dark" ? "text-ink-dark-primary" : "text-ink-light-primary"}`}
+              className={`font-display font-semibold mb-4 ${
+                theme === "dark"
+                  ? "text-ink-dark-primary"
+                  : "text-ink-light-primary"
+              }`}
             >
-                            Our Services            {" "}
+              {t("footer.our_services", "Our Services")}
             </h4>
-                       {" "}
             <ul className="space-y-2">
-                           {" "}
-              <li>
-                <Link
-                  to="/services/flight-tickets"
-                  className={`text-sm transition-colors ${theme === "dark" ? "text-ink-dark-secondary hover:text-brand-gold" : "text-ink-light-secondary hover:text-brand-red-orange"}`}
-                >
-                  Flight Tickets
-                </Link>
-              </li>
-                           {" "}
-              <li>
-                <Link
-                  to="/services"
-                  className={`text-sm transition-colors ${theme === "dark" ? "text-ink-dark-secondary hover:text-brand-gold" : "text-ink-light-secondary hover:text-brand-red-orange"}`}
-                >
-                  Hotel Reservations
-                </Link>
-              </li>
-                           {" "}
-              <li>
-                <Link
-                  to="/services/travel-services"
-                  className={`text-sm transition-colors ${theme === "dark" ? "text-ink-dark-secondary hover:text-brand-gold" : "text-ink-light-secondary hover:text-brand-red-orange"}`}
-                >
-                  Travel Services
-                </Link>
-              </li>
-                           {" "}
-              <li>
-                <Link
-                  to="/services/umrah-packages"
-                  className={`text-sm transition-colors ${theme === "dark" ? "text-ink-dark-secondary hover:text-brand-gold" : "text-ink-light-secondary hover:text-brand-red-orange"}`}
-                >
-                  Umrah Packages
-                </Link>
-              </li>
-                           {" "}
-              <li>
-                <Link
-                  to="/services/student-visas"
-                  className={`text-sm transition-colors ${theme === "dark" ? "text-ink-dark-secondary hover:text-brand-gold" : "text-ink-light-secondary hover:text-brand-red-orange"}`}
-                >
-                  Student Visas
-                </Link>
-              </li>
-                         {" "}
+              {serviceLinks.map((link, i) => (
+                <li key={i}>
+                  <Link
+                    to={link.to}
+                    className={`text-sm transition-colors ${
+                      theme === "dark"
+                        ? "text-ink-dark-secondary hover:text-brand-gold"
+                        : "text-ink-light-secondary hover:text-brand-red-orange"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-                     {" "}
           </motion.div>
+
           {/* Contact */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -179,7 +176,7 @@ export default function Footer() {
                   : "text-ink-light-primary"
               }`}
             >
-              Contact Us
+              {t("footer.contact_us", "Contact Us")}
             </h4>
 
             <div className="space-y-2.5 text-sm">
@@ -208,7 +205,7 @@ export default function Footer() {
                       : "text-ink-light-secondary group-hover:text-ink-light-primary"
                   }`}
                 >
-                  Send Mail
+                  {t("footer.send_mail", "Send Mail")}
                 </span>
               </a>
 
@@ -235,11 +232,11 @@ export default function Footer() {
                         : "text-ink-light-secondary/70"
                     }`}
                   >
-                    Phone Support
+                    {t("footer.phone_support", "Phone Support")}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-1.5 pl-5">
+                <div className="grid grid-cols-1 gap-1.5 pl-5 rtl:pl-0 rtl:pr-5">
                   {["+93 789785320", "+93 794560560", "+93 785790647"].map(
                     (phone, idx) => (
                       <a
@@ -252,9 +249,9 @@ export default function Footer() {
                         }`}
                       >
                         <span>{phone}</span>
-                        <FaArrowRight className="text-[10px] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                        <FaArrowRight className="text-[10px] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 rtl:rotate-180" />
                       </a>
-                    ),
+                    )
                   )}
                 </div>
               </div>
@@ -264,13 +261,18 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div
-          className={`mt-12 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4 ${theme === "dark" ? "border-border-dark" : "border-border-light"}`}
+          className={`mt-12 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4 ${
+            theme === "dark" ? "border-border-dark" : "border-border-light"
+          }`}
         >
           <p
-            className={`text-xs ${theme === "dark" ? "text-ink-dark-secondary" : "text-ink-light-secondary"}`}
+            className={`text-xs ${
+              theme === "dark"
+                ? "text-ink-dark-secondary"
+                : "text-ink-light-secondary"
+            }`}
           >
-            &copy; {new Date().getFullYear()} Excellent Travel Agency. All
-            rights reserved.
+            &copy; {new Date().getFullYear()} {t("footer.rights_reserved", "Excellent Travel Agency. All rights reserved.")}
           </p>
         </div>
       </div>

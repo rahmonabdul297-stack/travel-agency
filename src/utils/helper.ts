@@ -1,3 +1,4 @@
+
 import { toast } from "react-toastify"
 
 export const successNotification=( message:string)=>{
@@ -9,3 +10,4 @@ export const errorNotification=( message:string)=>{
 export const infoNotification=( message:string)=>{
     toast.info(message)
 }
+
